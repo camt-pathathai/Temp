@@ -442,6 +442,16 @@ nav ul li a {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+.category-container a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use the parent text color */
+    display: block; /* Make the entire box clickable */
+}
+
+.category-menu {
+    cursor: pointer; /* Show pointer cursor */
+}
+
 /* Styling for the new categories section */
 .new-categories {
     padding: 20px;
