@@ -29,9 +29,12 @@ header {
 .logo {
     font-size: 24px;
     font-weight: bold;
+    font-family: 'Arial', sans-serif;  /* เพิ่มฟอนต์ (คุณสามารถเปลี่ยนฟอนต์ตามต้องการ) */
+    font-style: italic;  /* ทำให้ข้อความเป็นตัวเอียง */
     position: absolute;
     left: 20px;
 }
+
 
 nav ul {
     list-style: none;
@@ -55,18 +58,9 @@ nav ul li a {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 15px;  /* เพิ่มระยะห่างระหว่าง token และ account */
+    gap: 15px;
     position: absolute;
     right: 30px;
-}
-
-.account {
-    font-size: 16px;
-    color: #ffffff;
-    font-weight: bold;
-    background-color: #042786;
-    padding: 5px 10px;
-    border-radius: 5px;
 }
 
 .banner {
