@@ -448,7 +448,7 @@ nav ul li a {
     display: block; /* Make the entire box clickable */
 }
 
-.category-menu {
+.category {
     cursor: pointer; /* Show pointer cursor */
 }
 
