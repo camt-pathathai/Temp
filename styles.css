@@ -549,6 +549,7 @@ nav ul li a {
 
 
 .recommended-products .product-image {
+    margin-top: 5px;
     width: 90%;
     height: 90%;
     object-fit: fill;
@@ -556,7 +557,7 @@ nav ul li a {
 }
 
 .recommended-products p {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     margin-top: 10px;
 }
