@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+header {
+    background-color: #ffffff;
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    background-color: #0c2756;  /* เพิ่มสีพื้นหลัง (สีฟ้าเข้ม) */
+    color: #ffffff;  /* เพิ่มสีข้อความ (สีขาว) */
+    padding: 20px 30px;
+    
+}
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    left: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;  /* เพิ่มระยะห่างระหว่าง token และ account */
+    position: absolute;
+    right: 30px;
+}
+
+.account {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #042786;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
