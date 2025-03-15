@@ -175,3 +175,60 @@ button:disabled:hover {
     margin-right: 30px;
 }
 
+/* Style for modal */
+.modal {
+    display: none; /* Initially hide the modal */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Close button for modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Modal image */
+.modal-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Style for the modal details */
+#modalDetails {
+    margin-top: 15px;
+}
+
+#addToBasketBtn {
+    padding: 10px 20px;
+    background-color: #0c2756;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#addToBasketBtn:hover {
+    background-color: #1d478b;
+}
+
