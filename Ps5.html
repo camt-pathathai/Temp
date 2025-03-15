@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PlayStation5</title>
-        <link rel="stylesheet" href="styles_category.css" />
-    </head>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gamesir</title>
+    <link rel="stylesheet" href="styles_category.css" />
+</head>
+
 <body>
     <header>
         <div class="navbar">
             <div class="logo">TEMP</div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Index.html">Home</a></li>
                     <li><a href="index.html#our-products">All Products</a></li>
                     <li>
                         <a href="#" id="basket">Basket
@@ -25,7 +27,148 @@
         </div>
     </header>
     <div>
-        <h1>Welcome to PlayStation5 pages</h1>
     </div>
+
+    <div class="recommended-products">
+        <h1>Welcome to PlayStation5</h1>
+        <div class="product-container">
+            <!-- รูปขนาดใหญ่ -->
+            <div class="product large">
+                <img class="product-image" src="placeholder.png" alt="Product Image">
+                <p>Action<br>Mario Party 5<br>$6.99</p>
+            </div>
+
+            <!-- แถวที่ 1 (1 และ 2) -->
+            <div class="product-list">
+                <div class="product-row">
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 1<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 2<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 3<br>$6.99</p>
+                    </div>
+                </div>
+
+                <!-- แถวที่ 2 (3 และ 4) -->
+                <div class="product-row">
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 4<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 5<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 6<br>$6.99</p>
+                    </div>
+                </div>
+
+                <!-- แถวที่ 3 (5 และ 6) -->
+                <div class="product-row product-list-3">
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 7<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 8<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 9<br>$6.99</p>
+                    </div>
+                </div>
+
+                <!-- แถวที่ 4 (7 และ 8) -->
+                <div class="product-row product-list-4">
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 10<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 11<br>$6.99</p>
+                    </div>
+                    <div class="product">
+                        <img class="product-image" src="placeholder.png" alt="Product Image">
+                        <p>Action<br>Mario Party 12<br>$6.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="back">Back</button>
+            <button class="prev-btn disabled" disabled>Previous</button>
+            <button class="next-btn">Next</button>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select the product lists and buttons
+            const backButton = document.querySelector(".back");  // Select the back button
+            const nextButton = document.querySelector(".next-btn");
+            const prevButton = document.querySelector(".prev-btn");
+            const productList1 = document.querySelector(".product-row:nth-child(1)"); // First row
+            const productList2 = document.querySelector(".product-row:nth-child(2)"); // Second row
+            const productList3 = document.querySelector(".product-list-3");
+            const productList4 = document.querySelector(".product-list-4");
+        
+            // Function to handle "Next" button click
+            nextButton.addEventListener("click", function () {
+                // Hide product lists 1 and 2
+                productList1.style.display = "none";
+                productList2.style.display = "none";
+                // Show product lists 3 and 4
+                productList3.style.display = "flex";
+                productList4.style.display = "flex";
+        
+                // Disable "Next" button when we're at the last set
+                nextButton.classList.add("disabled");
+                nextButton.disabled = true;
+        
+                // Enable the "Previous" button
+                prevButton.classList.remove("disabled");
+                prevButton.disabled = false;
+            });
+        
+            // Function to handle "Previous" button click
+            prevButton.addEventListener("click", function () {
+                // Show product lists 1 and 2
+                productList1.style.display = "flex";
+                productList2.style.display = "flex";
+                // Hide product lists 3 and 4
+                productList3.style.display = "none";
+                productList4.style.display = "none";
+        
+                // Disable "Previous" button when we're at the first set
+                prevButton.classList.add("disabled");
+                prevButton.disabled = true;
+        
+                // Enable the "Next" button
+                nextButton.classList.remove("disabled");
+                nextButton.disabled = false;
+            });
+        
+            // Function to handle "Back" button click
+            backButton.addEventListener("click", function () {
+                // Navigate back to the home page (same as the "Home" link in the navbar)
+                window.location.href = "Index.html"; // ปรับ URL ตามที่ต้องการ
+            });
+        
+        });
+        
+    </script>
 </body>
+
 </html>
