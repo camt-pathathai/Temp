@@ -339,3 +339,8 @@ footer {
     text-decoration: none; /* Removes underline */
     color: black; /* Changes text color to black */
 }
+
+html {
+    scroll-behavior: smooth;
+}
+

@@ -232,3 +232,6 @@ button:disabled:hover {
     background-color: #1d478b;
 }
 
+html {
+    scroll-behavior: smooth;
+}
