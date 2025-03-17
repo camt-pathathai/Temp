@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>ADMIN</h2>
+            <nav>
+                <ul>
+                    <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="/products"><i class="fas fa-gamepad"></i> จัดการสินค้า</a></li>
+                    <li class="active"><a href="/categories"><i class="fas fa-tags"></i> จัดการหมวดหมู่</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header>
+                <h2>หมวดหมู่สินค้า</h2>
+                <button id="openAddCategoryModal" class="btn-primary"><i class="fas fa-plus"></i> เพิ่มหมวดหมู่</button>
+            </header>
+
+            <section class="category-list">
+                <% categories.forEach(category => { %>
+                    <div class="category-item">
+                        <h3><%= category.name %></h3>
+                        <div class="category-actions">
+                            <button onclick="editCategory('<%= category.id %>')" class="btn-edit">✏️ แก้ไข</button>
+                            <button onclick="deleteCategory('<%= category.id %>')" class="btn-delete">🗑️ ลบ</button>
+                        </div>
+                    </div>
+                <% }); %>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/scripts.js"></script>
+</body>
+</html>

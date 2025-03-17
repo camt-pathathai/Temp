@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>ADMIN</h2>
+            <nav>
+                <ul>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li class="active"><a href="/products">Product Management</a></li>
+                    <li><a href="/categories">Category Management</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" id="searchProduct" placeholder="🔍 ค้นหาสินค้า...">
+                    <button class="btn-search">🔍</button>
+                </div>
+                <button onclick="location.href='/products/add'" class="btn-primary">add game</button>
+            </header>
+
+            <!-- Product List -->
+            <section class="product-list">
+                <% if (products.length > 0) { %>
+                    <% products.forEach(product => { %>
+                        <div class="product-card">
+                            <img src="<%= product.product_images %>" alt="<%= product.product_name %>">
+                            <h3><%= product.product_name %></h3>
+                            <p><%= product.product_description %></p>
+                            <p>ราคาปกติ: ฿<%= product.product_normal_price %></p>
+                            <p>ราคาพิเศษ: ฿<%= product.product_price_promotion %></p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>❌ ไม่มีสินค้าในระบบ</p>
+                <% } %>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

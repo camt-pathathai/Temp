@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>ADMIN</h2>
+            <nav>
+                <ul>
+                    <li class="active"><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="/products"><i class="fas fa-gamepad"></i> จัดการสินค้า</a></li>
+                    <li><a href="/categories"><i class="fas fa-tags"></i> จัดการหมวดหมู่</a></li>
+                    <li><a href="/orders"><i class="fas fa-shopping-cart"></i> คำสั่งซื้อ</a></li>
+                    <li><a href="/customers"><i class="fas fa-users"></i> ลูกค้า</a></li>
+                    <li><a href="/reports"><i class="fas fa-chart-line"></i> รายงาน</a></li>
+                    <li><a href="/settings"><i class="fas fa-cog"></i> ตั้งค่า</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" id="search" placeholder="🔍 ค้นหา...">
+                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                </div>
+            </header>
+
+            <!-- Dashboard Overview Cards -->
+            <section class="dashboard-cards">
+                <div class="card">
+                    <i class="fas fa-coins"></i>
+                    <div>
+                        <h3>฿ 250,000</h3>
+                        <p>ยอดขายเดือนนี้</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fas fa-boxes"></i>
+                    <div>
+                        <h3>120</h3>
+                        <p>จำนวนสินค้า</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3>560</h3>
+                        <p>ลูกค้าทั้งหมด</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Actions -->
+            <section class="actions">
+                <button onclick="location.href='/products/add'" class="btn-primary"><i class="fas fa-plus"></i> เพิ่มเกม</button>
+                <button onclick="location.href='/product'" class="btn-secondary"><i class="fas fa-cogs"></i> จัดการสต็อก</button>
+            </section>
+
+            <!-- Navigation Links (NEW) -->
+            <section class="dashboard-links">
+                <h3>ไปยังหน้าอื่นๆ</h3>
+                <div class="links">
+                    <a href="/products" class="btn-link"><i class="fas fa-gamepad"></i> จัดการสินค้า</a>
+                    <a href="/categories" class="btn-link"><i class="fas fa-tags"></i> จัดการหมวดหมู่</a>
+                    <a href="/orders" class="btn-link"><i class="fas fa-shopping-cart"></i> คำสั่งซื้อ</a>
+                    <a href="/reports" class="btn-link"><i class="fas fa-chart-line"></i> รายงาน</a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>
