@@ -9,5 +9,26 @@
                 <li><a href="contact.html">Contact Us</a></li>
             </ul>
         </nav>
+        <form action="/search" method="GET" class="search-form" onsubmit="return validateSearch()">
+            <input type="text" name="query" placeholder="Search products..." pattern="[A-Za-z0-9]+" title="Only letters and numbers are allowed" required />
+            <button type="submit">Search</button>
+        </form>
     </div>
 </header>
+
+<script>
+    function validateSearch() {
+        const queryInput = document.querySelector('input[name="query"]');
+        const query = queryInput.value;
+
+        // ตรวจสอบว่ามีข้อความภาษาไทยหรือไม่
+        const regex = /[\u0E00-\u0E7F]/;
+        if (regex.test(query)) {
+            alert("กรุณาใช้ตัวอักษรภาษาอังกฤษหรือเลขเท่านั้น");
+            queryInput.value = '';  // ลบข้อความที่พิมพ์ออก
+            queryInput.focus();  // ตั้งโฟกัสที่ช่องกรอกข้อความ
+            return false;  // ไม่ให้ฟอร์มส่งข้อมูล
+        }
+        return true;  // อนุญาตให้ฟอร์มส่งข้อมูล
+    }
+</script>
