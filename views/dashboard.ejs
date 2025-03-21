@@ -1,84 +1,99 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ทำให้ Sidebar Scroll ได้ */
+    #sidebar {
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
 
-    <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h2>ADMIN</h2>
-            <nav>
-                <ul>
-                    <li class="active"><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="/products"><i class="fas fa-gamepad"></i> จัดการสินค้า</a></li>
-                    <li><a href="/categories"><i class="fas fa-tags"></i> จัดการหมวดหมู่</a></li>
-                    <li><a href="/orders"><i class="fas fa-shopping-cart"></i> คำสั่งซื้อ</a></li>
-                    <li><a href="/customers"><i class="fas fa-users"></i> ลูกค้า</a></li>
-                    <li><a href="/reports"><i class="fas fa-chart-line"></i> รายงาน</a></li>
-                    <li><a href="/settings"><i class="fas fa-cog"></i> ตั้งค่า</a></li>
-                </ul>
-            </nav>
-        </aside>
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-64 bg-slate-800 text-white p-6 hidden md:block transition-all duration-500 ease-in-out">
+      <h2 class="text-2xl font-bold mb-6">ADMIN</h2>
+      <nav>
+        <ul class="space-y-4">
+          <li><a href="/dashboard" class="block py-2 px-3 rounded bg-slate-700"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+          <li><a href="/products" class="block py-2 px-3 hover:bg-slate-700 rounded"><i class="fas fa-gamepad me-2"></i> สินค้า</a></li>
+          <li><a href="/categories" class="block py-2 px-3 hover:bg-slate-700 rounded"><i class="fas fa-tags me-2"></i> หมวดหมู่</a></li>
+          <li><a href="/orders" class="block py-2 px-3 hover:bg-slate-700 rounded"><i class="fas fa-shopping-cart me-2"></i> คำสั่งซื้อ</a></li>
+          <li><a href="/customers" class="block py-2 px-3 hover:bg-slate-700 rounded"><i class="fas fa-users me-2"></i> ลูกค้า</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-        <!-- Main Content -->
-        <main class="content">
-            <header>
-                <div class="search-bar">
-                    <input type="text" id="search" placeholder="🔍 ค้นหา...">
-                    <button class="btn-search"><i class="fas fa-search"></i></button>
-                </div>
-            </header>
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <!-- Header -->
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-slate-700 dark:text-white transition-colors duration-300">แดชบอร์ด</h1>
+        <div class="space-x-2 flex items-center">
+          <button id="darkModeToggle" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="toggleSidebar" class="bg-gray-700 text-white px-4 py-2 rounded md:hidden transition">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </header>
 
-            <!-- Dashboard Overview Cards -->
-            <section class="dashboard-cards">
-                <div class="card">
-                    <i class="fas fa-coins"></i>
-                    <div>
-                        <h3>฿ 250,000</h3>
-                        <p>ยอดขายเดือนนี้</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <i class="fas fa-boxes"></i>
-                    <div>
-                        <h3>120</h3>
-                        <p>จำนวนสินค้า</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <i class="fas fa-users"></i>
-                    <div>
-                        <h3>560</h3>
-                        <p>ลูกค้าทั้งหมด</p>
-                    </div>
-                </div>
-            </section>
+      <!-- Dashboard Cards -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white p-5 rounded shadow flex items-center space-x-4 transform transition-transform hover:scale-105">
+          <i class="fas fa-coins text-3xl"></i>
+          <div>
+            <h3 class="text-lg font-bold">฿ 250,000</h3>
+            <p class="text-sm">ยอดขายเดือนนี้</p>
+          </div>
+        </div>
+        <div class="bg-gradient-to-r from-blue-400 to-blue-500 text-white p-5 rounded shadow flex items-center space-x-4 transform transition-transform hover:scale-105">
+          <i class="fas fa-boxes text-3xl"></i>
+          <div>
+            <h3 class="text-lg font-bold">120</h3>
+            <p class="text-sm">จำนวนสินค้า</p>
+          </div>
+        </div>
+        <div class="bg-gradient-to-r from-purple-400 to-purple-500 text-white p-5 rounded shadow flex items-center space-x-4 transform transition-transform hover:scale-105">
+          <i class="fas fa-users text-3xl"></i>
+          <div>
+            <h3 class="text-lg font-bold">560</h3>
+            <p class="text-sm">ลูกค้าทั้งหมด</p>
+          </div>
+        </div>
+        <div class="bg-gradient-to-r from-red-400 to-red-500 text-white p-5 rounded shadow flex items-center space-x-4 transform transition-transform hover:scale-105">
+          <i class="fas fa-shopping-cart text-3xl"></i>
+          <div>
+            <h3 class="text-lg font-bold">35</h3>
+            <p class="text-sm">คำสั่งซื้อใหม่</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
-            <!-- Actions -->
-            <section class="actions">
-                <button onclick="location.href='/products/add'" class="btn-primary"><i class="fas fa-plus"></i> เพิ่มเกม</button>
-                <button onclick="location.href='/product'" class="btn-secondary"><i class="fas fa-cogs"></i> จัดการสต็อก</button>
-            </section>
+  <script>
+    // Dark Mode Toggle (พร้อม Animation)
+    document.getElementById("darkModeToggle").addEventListener("click", function () {
+      document.body.classList.toggle("dark");
+      document.body.classList.add("transition-colors", "duration-500");
+    });
 
-            <!-- Navigation Links (NEW) -->
-            <section class="dashboard-links">
-                <h3>ไปยังหน้าอื่นๆ</h3>
-                <div class="links">
-                    <a href="/products" class="btn-link"><i class="fas fa-gamepad"></i> จัดการสินค้า</a>
-                    <a href="/categories" class="btn-link"><i class="fas fa-tags"></i> จัดการหมวดหมู่</a>
-                    <a href="/orders" class="btn-link"><i class="fas fa-shopping-cart"></i> คำสั่งซื้อ</a>
-                    <a href="/reports" class="btn-link"><i class="fas fa-chart-line"></i> รายงาน</a>
-                </div>
-            </section>
-
-        </main>
-    </div>
+    // Sidebar Toggle (Mobile)
+    document.getElementById("toggleSidebar").addEventListener("click", function () {
+      let sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+      sidebar.classList.toggle("translate-x-0");
+    });
+  </script>
 
 </body>
 </html>

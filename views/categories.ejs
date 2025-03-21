@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories Management</title>
+    <title>Catagories-Management</title>
     <link rel="stylesheet" href="/css/styles.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
@@ -16,8 +16,8 @@
             <nav>
                 <ul>
                     <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="/products"><i class="fas fa-gamepad"></i> จัดการสินค้า</a></li>
-                    <li class="active"><a href="/categories"><i class="fas fa-tags"></i> จัดการหมวดหมู่</a></li>
+                    <li><a href="/products"><i class="fas fa-gamepad"></i>Product-Management</a></li>
+                    <li class="active"><a href="/categories"><i class="fas fa-tags"></i> Catagories-Management</a></li>
                 </ul>
             </nav>
         </aside>
@@ -26,13 +26,28 @@
         <main class="content">
             <header>
                 <h2>หมวดหมู่สินค้า</h2>
+                <div class="search-bar">
+                    <input type="text" id="searchCategory" placeholder="🔍 ค้นหาหมวดหมู่...">
+                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                </div>
                 <button id="openAddCategoryModal" class="btn-primary"><i class="fas fa-plus"></i> เพิ่มหมวดหมู่</button>
             </header>
 
-            <section class="category-list">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="/">หน้าหลัก</a> > <span>จัดการหมวดหมู่</span>
+            </nav>
+
+            <!-- Category List -->
+            <section class="category-grid">
                 <% categories.forEach(category => { %>
-                    <div class="category-item">
-                        <h3><%= category.name %></h3>
+                    <div class="category-card <%= category.type %>">
+                        <h3>
+                            <% if(category.type === 'platform') { %> 🎮 <% } %>
+                            <% if(category.type === 'game_category') { %> 🕹 <% } %>
+                            <% if(category.type === 'general') { %> 📦 <% } %>
+                            <%= category.name %> 
+                        </h3>
                         <div class="category-actions">
                             <button onclick="editCategory('<%= category.id %>')" class="btn-edit">✏️ แก้ไข</button>
                             <button onclick="deleteCategory('<%= category.id %>')" class="btn-delete">🗑️ ลบ</button>
@@ -43,6 +58,49 @@
         </main>
     </div>
 
+    <!-- Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>เพิ่มหมวดหมู่ใหม่</h2>
+            <form action="/categories/add" method="POST">
+                <div class="form-group">
+                    <label>ชื่อหมวดหมู่</label>
+                    <input type="text" name="category_name" required>
+                </div>
+                <div class="form-group">
+                    <label>ประเภท</label>
+                    <select name="type" required>
+                        <option value="platform">แพลตฟอร์ม</option>
+                        <option value="game_category">ประเภทเกม</option>
+                        <option value="general">หมวดหมู่ทั่วไป</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">บันทึก</button>
+            </form>
+        </div>
+    </div>
+
     <script src="/js/scripts.js"></script>
+    <script>
+        document.getElementById("openAddCategoryModal").addEventListener("click", function() {
+            document.getElementById("categoryModal").style.display = "block";
+        });
+
+        function closeModal() {
+            document.getElementById("categoryModal").style.display = "none";
+        }
+
+        function editCategory(id) {
+            alert("ฟังก์ชันแก้ไขอยู่ระหว่างพัฒนา: " + id);
+        }
+
+        function deleteCategory(id) {
+            if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?")) {
+                fetch(`/categories/delete/${id}`, { method: "POST" })
+                .then(() => location.reload());
+            }
+        }
+    </script>
 </body>
 </html>

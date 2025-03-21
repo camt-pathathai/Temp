@@ -2,7 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const db = require("./db");
-
+const productsRoutes = require("./routes/products"); // นำเข้าไฟล์ routes/products.js
 const app = express();
 
 // ตั้งค่าเซสชัน
@@ -15,10 +15,12 @@ app.use(
 );
 
 // Middleware
+app.use(express.urlencoded({ extended: true })); // รองรับ Form Data
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
+app.use("/products", productsRoutes); // เชื่อมเส้นทาง /products
 
 // นำเข้า Routes
 const authRoutes = require("./routes/auth");

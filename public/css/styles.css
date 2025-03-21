@@ -380,4 +380,119 @@ header {
       padding: 1.5rem;
     }
   }
-  
+/* ปรับ Layout ของ Grid ให้ Responsive และสมบูรณ์ขึ้น */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+/* Card UI สำหรับแต่ละหมวดหมู่ */
+.category-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ปรับแต่งปุ่มในหมวดหมู่ */
+.category-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.breadcrumb a {
+    color: #3498DB;
+    text-decoration: none;
+}
+
+.breadcrumb span {
+    color: gray;
+}
+
+/* ปรับแต่ง Modal ให้แสดงสวยงาม */
+.modal {
+    display: none ; /* ✅ ใช้ !important เพื่อบังคับให้ซ่อน */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* ปรับขนาด Modal ให้พอดีกับหน้าจอ */
+.modal-content {
+    background: white;
+    padding: 20px;
+    width: 40%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+}
+
+/* ปุ่มปิด Modal */
+.close {
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* ปรับแต่ง Badge ให้มีสีต่างกันตามประเภท */
+.badge {
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.badge-platform {
+    background-color: #3498DB;
+    color: white;
+}
+
+.badge-game {
+    background-color: #E67E22;
+    color: white;
+}
+
+.badge-general {
+    background-color: #2ECC71;
+    color: white;
+}
+
+/* ปรับแต่ง Responsive Design */
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .modal-content {
+        width: 80%;
+    }
+}
