@@ -1,1 +1,19 @@
 # Temp-Coding
+
+if not clone use command to install packages
+```
+npm i 
+```
+To Install database change database url in env file
+
+DATABASE_URL="mysql://root:password@localhost:3306/db-name"
+
+then use command to create database
+```
+npx prisma db push 
+```
+
+use command to run server
+```
+npm start 
+```
