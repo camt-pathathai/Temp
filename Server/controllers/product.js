@@ -126,6 +126,7 @@ exports.nintendo = async(req,res) => {
                     quantity:0
                 }
             },
+            orderBy: { createdAt: "desc" },
             include: {
                 categories: {
                     include: {
@@ -160,6 +161,7 @@ exports.ps5 = async(req,res) => {
                     quantity:0
                 }
             },
+            orderBy: { createdAt: "desc" },
             include: {
                 categories: {
                     include: {
@@ -194,6 +196,7 @@ exports.ps4 = async(req,res) => {
                     quantity:0
                 }
             },
+            orderBy: { createdAt: "desc" },
             include: {
                 categories: {
                     include: {
@@ -228,6 +231,7 @@ exports.gamesir = async(req,res) => {
                     quantity:0
                 }
             },
+            orderBy: { createdAt: "desc" },
             include: {
                 categories: {
                     include: {
@@ -262,6 +266,7 @@ exports.xbox = async(req,res) => {
                     quantity:0
                 }
             },
+            orderBy: { createdAt: "desc" },
             include: {
                 categories: {
                     include: {
@@ -513,35 +518,50 @@ exports.filter = async(req,res) => {
 
 exports.recommended = async(req,res) => {
 
-    try{
-        //const { count } = req.params;
+    try {
+        // Count total number of products
+        const totalProducts = await prisma.product.count(); 
+
+        // Sum all product quantities (total stock)
+        const totalStockResult = await prisma.product.aggregate({
+            _sum: { quantity: true } 
+        });
+
+        // Sum of all sold items from Product table
+        const totalSoldResult = await prisma.product.aggregate({
+            _sum: { sold: true }
+        });
+
+        // Fetch recommended products
         const products = await prisma.product.findMany({
             take: 8,
-           where:{
-            NOT:{
-                quantity:0
-            }
-                
-           },
-            orderBy: { createdAt: "desc" },
+            where: {
+                NOT: {
+                    quantity: 0
+                }
+            },
+            orderBy: { sold: "desc" },
             include: {
                 categories: {
                     include: {
-                      category: true,
+                        category: true,
                     },
-                  },
+                },
                 image: true,
-                
             }
-        })
+        });
 
-        //res.send(products);
-        res.render("index", { products });
-       
+        // Render the index view with stats and recommended products
+        res.render("index", {
+            totalProducts,
+            totalStock: totalStockResult._sum.quantity || 0,
+            totalSold: totalSoldResult._sum.sold || 0,
+            products,  // Include the recommended products in the view
+        });
 
-    }catch (err) {
-        console.log(err)
-        res.status(500).json({msg : "Server Error"})
+    } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        res.status(500).json({ error: "Server Error" });
     }
 };
 
@@ -624,4 +644,29 @@ exports.edit = async (req, res) => {
     }
 };
 
+/*
+exports.stats = async (req, res) => {
+    try {
+        // Count total number of products
+        const totalProducts = await prisma.product.count(); 
 
+        // Sum all product quantities (total stock)
+        const totalStockResult = await prisma.product.aggregate({
+            _sum: { quantity: true } 
+        });
+
+        // Sum of all sold items from Product table
+        const totalSoldResult = await prisma.product.aggregate({
+            _sum: { sold: true }
+        });
+
+        res.json({
+            totalProducts,
+            totalStock: totalStockResult._sum.quantity || 0,
+            totalSold: totalSoldResult._sum.sold || 0
+        });
+    } catch (error) {
+        console.error("Error fetching stats:", error);
+        res.status(500).json({ error: "Server Error" });
+    }
+}; */

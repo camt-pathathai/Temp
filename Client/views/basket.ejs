@@ -108,6 +108,38 @@
     background: #2980B9;
 }
 
+.checkout-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #007BFF; /* Original teal color */
+    color: #ffffff; /* White text */
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 25px; /* Rounded edges for a softer look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.checkout-button:hover {
+    background-color: #0056b3; /* Darker teal on hover */
+    transform: translateY(-3px); /* Slightly lifts the button on hover */
+}
+
+.checkout-button:active {
+    background-color: #004085; /* Darker teal when clicked */
+    transform: translateY(0); /* Reset lift when clicked */
+}
+
+.checkout-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Light teal glow on focus */
+}
+
+
+
+
 
   </style>
 </head>
@@ -142,7 +174,7 @@
     </ul>
 
     <h3 id="cart-total">Total: $<%= cartItems.reduce((total, item) => total + item.price * item.count, 0).toFixed(2) %></h3>
-    <a href="/checkout">Proceed to Checkout</a>
+    <a id="proceed-to-checkout" class="checkout-button">Proceed to Checkout</a>
   </div>
 
   <script>
@@ -245,6 +277,18 @@
     alert('Failed to remove item.');
   }
 }
+
+document.getElementById('proceed-to-checkout').addEventListener('click', function() {
+  const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+  
+  if (!userId) {
+    alert('You need to be logged in to proceed!');
+    window.location.href = '/login'; // Redirect to login if no userId
+  } else {
+    window.location.href = `/checkout/${userId}`; // Redirect to checkout page
+  }
+});
+
 
 
 

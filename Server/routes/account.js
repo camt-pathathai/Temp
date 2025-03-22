@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { registerAdmin,register,login,currentUser } = require('../controllers/account');
 const { auth } = require('../middleware/auth');
+const { dashboardStats } = require('../controllers/dashboard');
 
 router.get("/admin", (req, res) => {
     res.render("login");
@@ -9,9 +10,7 @@ router.get("/admin", (req, res) => {
 router.get("/admin/register", (req, res) => {
     res.render("adminregister");
 });
-router.get("/dashboard", (req, res) => {
-    res.render("dashboard");
-});
+router.get("/dashboard", dashboardStats);
 router.get("/login", (req, res) => {
     res.render("login");
 });

@@ -18,26 +18,11 @@
             filter: invert(1);
         }
         .navbar-nav {
-            align-items: center; /* Vertically align the nav items */
+            align-items: center;
         }
-
-        nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    margin: 0;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: rgb(255, 255, 255);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 18px;
-}
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -49,114 +34,123 @@ nav ul li a {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto d-flex align-items-center"> <!-- Add flex and center alignment here -->
+                <ul class="navbar-nav ms-auto d-flex align-items-center">
                     <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="/products">All Products</a></li>
                     <li class="nav-item">
                         <a class="nav-link text-white" id="basket">Basket</a>
                     </li>
                     <li class="nav-item"><a class="nav-link text-white" href="/contact">Contact Us</a></li>
+
+                    <!-- Search Bar -->
+                    <li class="nav-item">
                         <input type="text" name="query" placeholder="Search category..." pattern="[A-Za-z0-9]+" title="Only letters and numbers are allowed" required />
                         <button type="button" class="btn-search" onclick="validateSearch()" style="margin: 5px;">Search</button>
-                    <li class="nav-item" id="authLinks"></li>
+                    </li>
+
+                    <!-- Account Dropdown (Hidden if userId is missing) -->
+                    <li class="nav-item dropdown hidden" id="accountDropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#" id="ordersLink">Orders</a></li>
+                            <li><a class="dropdown-item" href="#" id="logoutLink">Log Out</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Sign Up & Log In Buttons (Hidden if userId is found) -->
+                    <li class="nav-item" id="signupButton"><a class="nav-link text-white" href="/register">Sign Up</a></li>
+                    <li class="nav-item" id="loginButton"><a class="nav-link text-white" href="/login">Log In</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-      // Check if userId is in localStorage
-// Check if userId is in localStorage
-const userId = localStorage.getItem('userId');
-const authLinks = document.getElementById('authLinks');
-const basketLink = document.getElementById('basket');
 
-// Handle the basket link click event
-if (basketLink) {
-    basketLink.addEventListener('click', function (event) {
-        // Check if the user is logged in (userId in localStorage)
-        if (!userId) {
-            event.preventDefault(); // Prevent navigating to the basket page
-            alert('Please login to access our services');
-            window.location.href = '/login'; // Optionally, redirect to the login page
-        } else {
-            // Append the userId as part of the URL
-            window.location.href = `/cart/${userId}`; // Redirect to the cart with userId in the URL
-        }
-    });
-}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+    const userId = localStorage.getItem('userId');
+    const accountDropdown = document.getElementById('accountDropdown');
+    const ordersLink = document.getElementById('ordersLink');
+    const logoutLink = document.getElementById('logoutLink');
+    const signupButton = document.getElementById('signupButton');
+    const loginButton = document.getElementById('loginButton');
+    const basketLink = document.getElementById('basket');
 
-if (userId) {
-    // If userId exists, show logout button
-    const logoutButton = document.createElement('a');
-    logoutButton.classList.add('nav-link', 'text-white');
-    logoutButton.href = '/';
-    logoutButton.textContent = 'Log Out';
-    logoutButton.onclick = () => {
-        // Clear userId from localStorage
-        localStorage.removeItem('userId');
-        // Reload the page to reflect changes
-        window.location.reload();
-    };
-    authLinks.appendChild(logoutButton);
-} else {
-    // If userId does not exist, show sign up and login buttons
-    const signupButton = document.createElement('a');
-    signupButton.classList.add('nav-link', 'text-white');
-    signupButton.href = '/register';
-    signupButton.textContent = 'Sign Up';
-    
-    const loginButton = document.createElement('a');
-    loginButton.classList.add('nav-link', 'text-white');
-    loginButton.href = '/login';
-    loginButton.textContent = 'Log In';
-
-    authLinks.appendChild(signupButton);
-    authLinks.appendChild(loginButton);
-}
-
-function validateSearch() {
-    const queryInput = document.querySelector('input[name="query"]');
-    const query = queryInput.value.toLowerCase();
-
-    // ตรวจสอบว่ามีข้อความภาษาไทยหรือไม่
-    const regex = /[\u0E00-\u0E7F]/;
-    if (regex.test(query)) {
-        alert("Please use Letters or Numbers");
-        queryInput.value = '';  // ลบข้อความที่พิมพ์ออก
-        queryInput.focus();  // ตั้งโฟกัสที่ช่องกรอกข้อความ
-        //return false;  // ไม่ให้ฟอร์มส่งข้อมูล
+    // Handle basket click event
+    if (basketLink) {
+        basketLink.addEventListener('click', function (event) {
+            if (!userId) {
+                event.preventDefault();
+                alert('Please login to access our services');
+                window.location.href = '/login';
+            } else {
+                window.location.href = `/cart/${userId}`;
+            }
+        });
     }
 
-    const categories = {
-        "nintendo": "/nintendo",
-        "nin": "/nintendo",
-        "playstation4": "/ps4",
-        "playstation 4": "/ps4",
-        "ps 4": "/ps4",
-        "ps4": "/ps4",
-        "playstation5": "/ps5",
-        "playstation 5": "/ps5",
-        "ps 5": "/ps5",
-        "ps5": "/ps5",
-        "xbox": "/xbox",
-        "gamesir": "/gamesir"
-    };
+    if (userId) {
+        // Show Account dropdown
+        accountDropdown.classList.remove('hidden');
 
-    if (categories[query]) {
-        window.location.href = '/products' + categories[query]; // Redirect properly
-        //return false; // Prevent form submission
+        // Set Orders link
+        ordersLink.href = `/orders/${userId}`;
+
+        // Handle logout
+        logoutLink.onclick = () => {
+            localStorage.removeItem('userId');
+            window.location.href = '/';
+        };
+
+        // Hide Signup & Login buttons
+        signupButton.classList.add('hidden');
+        loginButton.classList.add('hidden');
     } else {
-        alert('Category Not Found');
-        //return false; // Prevent form submission
+        // Hide Account dropdown
+        accountDropdown.classList.add('hidden');
+
+        // Show Signup & Login buttons
+        signupButton.classList.remove('hidden');
+        loginButton.classList.remove('hidden');
     }
-}
 
+    function validateSearch() {
+        const queryInput = document.querySelector('input[name="query"]');
+        const query = queryInput.value.toLowerCase();
 
-    </script>
-    
+        // Check if the input contains Thai characters
+        const regex = /[\u0E00-\u0E7F]/;
+        if (regex.test(query)) {
+            alert("Please use Letters or Numbers");
+            queryInput.value = '';
+            queryInput.focus();
+            return;
+        }
+
+        const categories = {
+            "nintendo": "/nintendo",
+            "nin": "/nintendo",
+            "playstation4": "/ps4",
+            "playstation 4": "/ps4",
+            "ps 4": "/ps4",
+            "ps4": "/ps4",
+            "playstation5": "/ps5",
+            "playstation 5": "/ps5",
+            "ps 5": "/ps5",
+            "ps5": "/ps5",
+            "xbox": "/xbox",
+            "gamesir": "/gamesir"
+        };
+
+        if (categories[query]) {
+            window.location.href = '/products' + categories[query];
+        } else {
+            alert('Category Not Found');
+        }
+    }
+</script>
 </body>
 </html>

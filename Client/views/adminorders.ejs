@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Orders Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
+
+  <div class="flex min-h-screen">
+    <%- include('partials/sidebar', { currentPage: 'orders' }) %>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-slate-700 dark:text-white">Orders</h1>
+      </header>
+
+      <!-- Orders Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white dark:bg-gray-800 rounded shadow">
+          <thead>
+            <tr class="bg-slate-200 dark:bg-slate-700 text-left">
+              <th class="py-3 px-4">Order ID</th>
+              <th class="py-3 px-4">Date</th>
+              <th class="py-3 px-4">Total</th>
+              <th class="py-3 px-4">Status</th>
+              <th class="py-3 px-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(order => { %>
+              <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                <td class="py-3 px-4"><%= order.id %></td>
+                <td class="py-3 px-4"><%= order.date %></td>
+                <td class="py-3 px-4">฿ <%= order.total %></td>
+                <td class="py-3 px-4">
+                  <span class="px-3 py-1 rounded-full text-sm font-semibold 
+                    <%= order.status === 'completed' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800' %>">
+                    <%= order.status %>
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <button class="text-blue-500 hover:underline" onclick="viewOrder('<%= order.id %>', '<%= order.userId %>')">View</button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function viewOrder(orderId, userId) {
+      // Example redirect to the order details page, passing the orderId and userId
+      //const url = `/orders/view/${orderId}/${userId}`;
+      //window.location.href = url;
+
+      // You could also alert the values if necessary
+      alert("📦 Details Order ID: " + orderId + " - User ID: " + userId);
+    }
+  </script>
+</body>
+</html>

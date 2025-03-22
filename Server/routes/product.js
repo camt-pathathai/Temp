@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { add, list, read, update, remove, sort, filter,nintendo, ps5, ps4, gamesir, xbox,recommended,adminlist, getedit, edit } = require('../controllers/product');
+const { add, list, read, update, remove, sort, filter,nintendo, ps5, ps4, gamesir, xbox,recommended,adminlist, getedit, edit, stats, } = require('../controllers/product');
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -69,6 +70,8 @@ router.get('/search', (req, res) => {
         res.redirect('/');
     }
 });
+
+//router.get('/stats', stats);
 
 
 module.exports = router ;

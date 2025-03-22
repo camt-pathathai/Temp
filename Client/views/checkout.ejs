@@ -1,0 +1,174 @@
+<!-- checkout.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <style>
+    body {
+      font-family: "Montserrat", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      margin-top: 80px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #0c2756;
+      color: #ffffff;
+      padding: 20px 30px;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      font-style: italic;
+      position: absolute;
+      left: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .basket-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .item img {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .quantity span {
+      margin: 0 10px;
+      font-size: 18px;
+    }
+
+    .btn-search {
+    background: #3498DB;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-search:hover {
+    background: #2980B9;
+}
+
+
+  </style>
+</head>
+<body>
+    <%- include("partials/header"); -%>
+
+  <h2>Checkout</h2>
+
+  <div class="container">
+    <h3>Your Cart</h3>
+    
+    <ul id="cart-items">
+      <% cartItems.forEach(item => { %>
+        <li class="item">
+          <img src="/image/<%= item.product.image && item.product.image[0] ? item.product.image[0].name : 'placeholder.jpg' %>" alt="<%= item.product.name %>" width="100">
+          <span><%= item.product.name %></span>
+          <span><%= item.count %> x $<%= item.price.toFixed(2) %></span>
+          <div><strong>$<%= (item.price * item.count).toFixed(2) %></strong></div>
+        </li>
+      <% }) %>
+    </ul>
+
+    <h3>Total: $<%= cartItems.reduce((total, item) => total + item.price * item.count, 0).toFixed(2) %></h3>
+
+    <form id="checkout-form" class="checkout-form" method="POST" action="/checkout">
+        <input type="text" name="address" id="address" placeholder="Enter your address" required>
+        <button type="submit">Submit Order</button>
+    </form>
+
+  </div>
+  <script>
+    document.getElementById('checkout-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const userId = localStorage.getItem('userId');
+      const address = document.getElementById('address').value;
+
+      if (!userId) {
+        alert('You need to be logged in to complete the checkout.');
+        return;
+      }
+
+      // Send the address along with userId to the server
+      const response = await fetch('/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userId}`,
+        },
+        body: JSON.stringify({ address })
+      });
+
+      if (response.ok) {
+        const order = await response.json();
+        alert('Order placed successfully!');
+        window.location.href = `/orders/${userId}`; // Redirect to order confirmation page
+      } else {
+        alert('Your cart is empty.');
+      }
+    });
+  </script>
+</body>
+</html>
