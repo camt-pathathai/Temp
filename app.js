@@ -21,6 +21,11 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use("/products", productsRoutes); // เชื่อมเส้นทาง /products
+app.use((req, res, next) => {
+  console.log("🔍 Session Data:", req.session);
+  next();
+});
+
 
 // นำเข้า Routes
 const authRoutes = require("./routes/auth");
@@ -58,3 +63,11 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Server is running on http://localhost:${PORT}`);
 });
+app.use(express.json()); // รองรับ JSON Request
+app.use(express.urlencoded({ extended: true })); // รองรับ Form Data
+app.use(session({
+    secret: process.env.SESSION_SECRET || "my_secret_key",
+    resave: false,
+    saveUninitialized: false, // เปลี่ยนเป็น false เพื่อป้องกัน session ว่าง
+    cookie: { secure: false } // เปิด secure เฉพาะใช้ HTTPS
+}));

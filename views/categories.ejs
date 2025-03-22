@@ -1,94 +1,95 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catagories-Management</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>Categories Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
 
-    <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h2>ADMIN</h2>
-            <nav>
-                <ul>
-                    <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="/products"><i class="fas fa-gamepad"></i>Product-Management</a></li>
-                    <li class="active"><a href="/categories"><i class="fas fa-tags"></i> Catagories-Management</a></li>
-                </ul>
-            </nav>
-        </aside>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
+
+    <div class="flex min-h-screen">
+        <%- include('partials/sidebar', { currentPage: 'categories' }) %>
 
         <!-- Main Content -->
-        <main class="content">
-            <header>
-                <h2>หมวดหมู่สินค้า</h2>
-                <div class="search-bar">
-                    <input type="text" id="searchCategory" placeholder="🔍 ค้นหาหมวดหมู่...">
-                    <button class="btn-search"><i class="fas fa-search"></i></button>
-                </div>
-                <button id="openAddCategoryModal" class="btn-primary"><i class="fas fa-plus"></i> เพิ่มหมวดหมู่</button>
+        <main class="flex-1 p-6">
+            <!-- Header -->
+            <header class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-slate-700 dark:text-white">Catagories</h1>
+                <button id="openAddCategoryModal"
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                    <i class="fas fa-plus"></i> Add-Catagories
+                </button>
             </header>
 
-            <!-- Breadcrumb -->
-            <nav class="breadcrumb">
-                <a href="/">หน้าหลัก</a> > <span>จัดการหมวดหมู่</span>
-            </nav>
-
-            <!-- Category List -->
-            <section class="category-grid">
-                <% categories.forEach(category => { %>
-                    <div class="category-card <%= category.type %>">
-                        <h3>
-                            <% if(category.type === 'platform') { %> 🎮 <% } %>
-                            <% if(category.type === 'game_category') { %> 🕹 <% } %>
-                            <% if(category.type === 'general') { %> 📦 <% } %>
-                            <%= category.name %> 
+            <!-- Category Grid -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <% categories.forEach(category=> { %>
+                    <div
+                        class="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md flex justify-between items-center transform transition-transform hover:scale-105">
+                        <h3 class="text-lg font-bold text-gray-700 dark:text-white">
+                            <% if(category.type==='platform' ) { %> 🎮 <% } %>
+                                    <% if(category.type==='game_category' ) { %> 🕹 <% } %>
+                                            <% if(category.type==='general' ) { %> 📦 <% } %>
+                                                    <%= category.name %>
                         </h3>
-                        <div class="category-actions">
-                            <button onclick="editCategory('<%= category.id %>')" class="btn-edit">✏️ แก้ไข</button>
-                            <button onclick="deleteCategory('<%= category.id %>')" class="btn-delete">🗑️ ลบ</button>
+                        <div class="flex space-x-2">
+                            <button onclick="editCategory('<%= category.id %>')"
+                                class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500 transition">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button onclick="deleteCategory('<%= category.id %>')"
+                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
                         </div>
                     </div>
-                <% }); %>
+                    <% }); %>
             </section>
         </main>
     </div>
 
-    <!-- Modal -->
-    <div id="categoryModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>เพิ่มหมวดหมู่ใหม่</h2>
+    <!-- Modal Add/Edit Category -->
+    <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-xl font-bold mb-4 text-gray-700 dark:text-white">ADD/Edit Catagories</h2>
             <form action="/categories/add" method="POST">
-                <div class="form-group">
-                    <label>ชื่อหมวดหมู่</label>
-                    <input type="text" name="category_name" required>
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">Name</label>
+                    <input type="text" name="category_name" required class="w-full p-2 border rounded 
+                              bg-gray-800 text-white border-gray-600 
+                              focus:outline-none focus:ring-2 focus:ring-green-400">
                 </div>
-                <div class="form-group">
-                    <label>ประเภท</label>
-                    <select name="type" required>
-                        <option value="platform">แพลตฟอร์ม</option>
-                        <option value="game_category">ประเภทเกม</option>
-                        <option value="general">หมวดหมู่ทั่วไป</option>
+                <div class="mb-3">
+                    <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">Type</label>
+                    <select name="type" required class="w-full p-2 border rounded 
+                               bg-gray-800 text-white border-gray-600 
+                               focus:outline-none focus:ring-2 focus:ring-green-400">
+                        <option value="platform">Platform</option>
+                        <option value="game_category">game-type</option>
+                        <option value="general">Catagories</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-primary">บันทึก</button>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded"
+                        onclick="closeModal()">Cancle</button>
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Save</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <script src="/js/scripts.js"></script>
+
     <script>
-        document.getElementById("openAddCategoryModal").addEventListener("click", function() {
-            document.getElementById("categoryModal").style.display = "block";
+        document.getElementById("openAddCategoryModal").addEventListener("click", function () {
+            document.getElementById("categoryModal").classList.remove("hidden");
         });
 
         function closeModal() {
-            document.getElementById("categoryModal").style.display = "none";
+            document.getElementById("categoryModal").classList.add("hidden");
         }
 
         function editCategory(id) {
@@ -98,9 +99,11 @@
         function deleteCategory(id) {
             if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่นี้?")) {
                 fetch(`/categories/delete/${id}`, { method: "POST" })
-                .then(() => location.reload());
+                    .then(() => location.reload());
             }
         }
     </script>
+
 </body>
+
 </html>

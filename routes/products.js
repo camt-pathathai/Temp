@@ -2,54 +2,35 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// ดึงสินค้าทั้งหมด
+// ลบเส้นทาง get("/") ที่ซ้ำออก แล้วกำหนดเส้นทาง /products แยกออกจาก /add-product
 router.get("/", (req, res) => {
-    const sql = `
+    const sqlProducts = `
       SELECT p.*, pl.name AS platform_name, gc.name AS game_category_name
       FROM products p
-      JOIN platforms pl ON p.platform_id = pl.id
-      JOIN game_categories gc ON p.game_category_id = gc.id`;
+      LEFT JOIN platforms pl ON p.platform_id = pl.id
+      LEFT JOIN game_categories gc ON p.game_category_id = gc.id`;
 
-    db.query(sql, (err, results) => {
-        res.render("products", { products: results });
-    });
-});
-
-
-
-// ดึงหน้าเพิ่มสินค้า
-router.get("/add", (req, res) => {
-    res.render("add-product");
-});
-
-// routes/products.js
-// ดึงหน้าเพิ่มสินค้า พร้อมดึงข้อมูล platforms และ game_categories
-router.get("/add", (req, res) => {
-    const sqlPlatforms = "SELECT * FROM platforms";
-    const sqlCategories = "SELECT * FROM game_categories";
-
-    db.query(sqlPlatforms, (err, platforms) => {
+    db.query(sqlProducts, (err, products) => {
         if (err) {
-            console.error("❌ Error fetching platforms:", err);
-            return res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลแพลตฟอร์ม");
+            console.error("❌ Error fetching products:", err);
+            return res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลสินค้า");
         }
 
-        db.query(sqlCategories, (err, categories) => {
-            if (err) {
-                console.error("❌ Error fetching categories:", err);
-                return res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลหมวดหมู่");
-            }
-
-            res.render("add-product", { platforms, categories });
-        });
+        res.render("products", { products });
     });
 });
 
-// เพิ่มสินค้าใหม่
+// ดึงหน้าเพิ่มสินค้า
+router.get("/add-product", (req, res) => {
+    res.render("add-product");  // เส้นทางสำหรับการ render หน้า add-product.ejs
+});
+
+
+// 📌 เพิ่มสินค้าใหม่
+// 📌 เพิ่มสินค้าใหม่ และอัปเดตหน้าอัตโนมัติ
 router.post("/add", (req, res) => {
     const { name, description, normal_price, promo_price, platform_id, game_category_id, image } = req.body;
 
-    // ตรวจสอบว่าข้อมูลถูกต้อง
     if (!name || !description || !normal_price || !platform_id || !game_category_id) {
         return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
     }
@@ -64,12 +45,12 @@ router.post("/add", (req, res) => {
             console.error("❌ Error inserting product:", err);
             return res.status(500).send("เกิดข้อผิดพลาดในการเพิ่มสินค้า");
         }
-        res.redirect("/products");
+        res.redirect("/products"); // 🔥 อัปเดตหน้าอัตโนมัติ
     });
 });
 
 
-// ลบสินค้า
+// 📌 ลบสินค้า
 router.post("/delete", (req, res) => {
     db.query("DELETE FROM products WHERE id = ?", [req.body.id], (err) => {
         if (err) {
@@ -80,4 +61,7 @@ router.post("/delete", (req, res) => {
     });
 });
 
+router.get("/add-product", (req, res) => {
+    res.render("add-product");  // เส้นทางสำหรับการ render หน้า add-product.ejs
+});
 module.exports = router;

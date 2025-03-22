@@ -59,5 +59,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+document.getElementById("darkModeToggle").addEventListener("click", function () {
+    document.body.classList.toggle("dark");
+    
+    // บันทึกสถานะธีมใน localStorage
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+});
+
+// โหลดธีมที่ถูกบันทึกไว้
+window.addEventListener("DOMContentLoaded", function () {
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+    }
+});
+
 
 

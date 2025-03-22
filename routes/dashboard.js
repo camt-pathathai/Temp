@@ -2,36 +2,34 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db"); // เชื่อมต่อฐานข้อมูล
 
-// Route แสดงหน้า Dashboard
+// ดึงข้อมูลสถิติจากฐานข้อมูล
 router.get("/", (req, res) => {
-    if (!req.session.admin_id) {
-        return res.redirect("/auth/login");
-    }
+    const sqlTotalUsers = "SELECT COUNT(*) AS total_users FROM admin_users";
+    const sqlTotalOrders = "SELECT COUNT(*) AS total_orders FROM orders";
+    const sqlTotalProducts = "SELECT COUNT(*) AS total_products FROM products";
+    const sqlMonthlySales = "SELECT SUM(total_price) AS monthly_sales FROM orders WHERE MONTH(order_date) = MONTH(CURRENT_DATE())";
 
-    // คำสั่ง SQL ดึงข้อมูล
-    const sql = `
-        SELECT 
-            (SELECT COUNT(*) FROM products) AS total_products,
-            (SELECT COUNT(*) FROM orders) AS total_orders,
-            (SELECT COUNT(*) FROM customers) AS total_customers,
-            (SELECT COALESCE(SUM(total_price), 0) FROM orders WHERE MONTH(order_date) = MONTH(CURRENT_DATE())) AS monthly_sales
-    `;
+    db.query(sqlTotalUsers, (err, usersResult) => {
+        if (err) return res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้");
 
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error("❌ Error fetching dashboard data:", err); // แสดง error ใน console
-            return res.status(500).send("❌ เกิดข้อผิดพลาดในการดึงข้อมูล Dashboard");
-        }
+        db.query(sqlTotalOrders, (err, ordersResult) => {
+            if (err) return res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ");
 
-        console.log("✅ Dashboard Data:", results[0]); // ตรวจสอบค่าที่ดึงได้
+            db.query(sqlTotalProducts, (err, productsResult) => {
+                if (err) return res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลสินค้า");
 
-        res.render("dashboard", {
-            total_products: results[0].total_products || 0,
-            total_orders: results[0].total_orders || 0,
-            total_customers: results[0].total_customers || 0,
-            monthly_sales: results[0].monthly_sales || 0
+                db.query(sqlMonthlySales, (err, salesResult) => {
+                    if (err) return res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลยอดขาย");
+
+                    res.render("dashboard", {
+                        total_users: usersResult[0].total_users,
+                        total_orders: ordersResult[0].total_orders,
+                        total_products: productsResult[0].total_products,
+                        monthly_sales: salesResult[0].monthly_sales || 0
+                    });
+                });
+            });
         });
     });
 });
-
 module.exports = router;

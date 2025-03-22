@@ -10,32 +10,30 @@ router.get("/login", (req, res) => {
 
 // ✅ จัดการล็อกอิน (POST)
 router.post("/login", (req, res) => {
-  const { username, password } = req.body;
+    const { username, password } = req.body;
+    console.log("📩 รับค่าจากฟอร์ม:", username, password);
 
-  if (!username || !password) {
-      return res.json({ success: false, message: "❌ โปรดกรอกข้อมูลให้ครบถ้วน!" });
-  }
+    db.query("SELECT * FROM admin_users WHERE username = ?", [username], (err, results) => {
+        if (err) {
+            console.error("❌ Database Error:", err);
+            return res.status(500).json({ success: false, message: "❌ เซิร์ฟเวอร์มีปัญหา!" }); // ✅ ต้อง return JSON
+        }
+        if (!results || results.length === 0) {
+            return res.json({ success: false, message: "❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!" });
+        }
 
-  db.query("SELECT * FROM admin_users WHERE username = ?", [username], (err, results) => {
-      if (err || results.length === 0) {
-          return res.json({ success: false, message: "❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!" });
-      }
+        bcrypt.compare(password, results[0].password, (err, isMatch) => {
+            if (isMatch) {
+                req.session.admin_id = results[0].id;
+                console.log("✅ Login Success:", username);
+                console.log("🔍 Session:", req.session);
 
-      bcrypt.compare(password, results[0].password, (err, isMatch) => {
-          if (isMatch) {
-              req.session.admin_id = results[0].id;
-
-              // ตรวจสอบว่าเป็นการเรียกจาก AJAX หรือไม่
-              if (req.headers.accept.includes('application/json')) {
-                  return res.json({ success: true });
-              } else {
-                  return res.redirect("/dashboard");
-              }
-          } else {
-              return res.json({ success: false, message: "❌ รหัสผ่านไม่ถูกต้อง!" });
-          }
-      });
-  });
+                return res.json({ success: true }); // ✅ ต้อง return JSON
+            } else {
+                return res.json({ success: false, message: "❌ รหัสผ่านไม่ถูกต้อง!" });
+            }
+        });
+    });
 });
 
 
@@ -49,28 +47,33 @@ router.post("/register", async (req, res) => {
     const { email, username, password } = req.body;
 
     if (!email || !username || !password) {
-        return res.json({ success: false, message: "❌ โปรดกรอกข้อมูลให้ครบถ้วน!" });
+        return res.status(400).json({ success: false, message: "❌ โปรดกรอกข้อมูลให้ครบถ้วน!" });
     }
 
     try {
-        // ตรวจสอบ username ซ้ำ
         db.query("SELECT * FROM admin_users WHERE username = ?", [username], async (err, results) => {
-            if (results.length > 0) {
-                return res.json({ success: false, message: "❌ ชื่อผู้ใช้นี้ถูกใช้ไปแล้ว!" });
+            if (err) {
+                console.error("❌ Database Error:", err);
+                return res.status(500).json({ success: false, message: "❌ ไม่สามารถเชื่อมต่อฐานข้อมูล!" });
             }
 
-            // เข้ารหัสรหัสผ่าน
+            if (results && results.length > 0) {
+                return res.status(409).json({ success: false, message: "❌ ชื่อผู้ใช้นี้ถูกใช้ไปแล้ว!" });
+            }
+
+            // ✅ เข้ารหัสรหัสผ่าน
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            // บันทึกข้อมูลลงฐานข้อมูล
+            // ✅ บันทึกข้อมูลลงฐานข้อมูล
             db.query(
                 "INSERT INTO admin_users (email, username, password) VALUES (?, ?, ?)",
                 [email, username, hashedPassword],
                 (err, result) => {
                     if (err) {
                         console.error("❌ Error inserting user:", err);
-                        return res.json({ success: false, message: "❌ ไม่สามารถสมัครสมาชิกได้!" });
+                        return res.status(500).json({ success: false, message: "❌ ไม่สามารถสมัครสมาชิกได้!" });
                     }
+
                     console.log("✅ สมัครสมาชิกสำเร็จ:", username);
                     res.json({ success: true });
                 }
@@ -78,8 +81,15 @@ router.post("/register", async (req, res) => {
         });
     } catch (err) {
         console.error("❌ Error hashing password:", err);
-        res.json({ success: false, message: "❌ มีข้อผิดพลาดในการสมัครสมาชิก!" });
+        res.status(500).json({ success: false, message: "❌ มีข้อผิดพลาดในการสมัครสมาชิก!" });
     }
+});
+
+// ✅ จัดการออกจากระบบ
+router.get("/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/auth/login");
+    });
 });
 
 module.exports = router;
