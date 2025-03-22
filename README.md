@@ -17,3 +17,8 @@ use command to run server
 ```
 npm start 
 ```
+
+To register as admin go to
+```
+http://localhost:3000/admin/register
+```
