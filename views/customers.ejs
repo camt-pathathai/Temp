@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Customers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
+
+  <div class="flex min-h-screen">
+    <%- include('partials/sidebar', { currentPage: 'customers' }) %>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-slate-700 dark:text-white">Customers</h1>
+      </header>
+
+      <!-- Customers Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white dark:bg-gray-800 rounded shadow">
+          <thead>
+            <tr class="bg-slate-200 dark:bg-slate-700 text-left">
+              <th class="py-3 px-4">ID</th>
+              <th class="py-3 px-4">Name</th>
+              <th class="py-3 px-4">Email</th>
+              <th class="py-3 px-4">Registered At</th>
+              <th class="py-3 px-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% customers.forEach(c => { %>
+              <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                <td class="py-3 px-4"><%= c.id %></td>
+                <td class="py-3 px-4"><%= c.name %></td>
+                <td class="py-3 px-4"><%= c.email %></td>
+                <td class="py-3 px-4"><%= c.registered_at %></td>
+                <td class="py-3 px-4">
+                  <button class="text-blue-500 hover:underline" onclick="viewCustomer('<%= c.id %>')">View</button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function viewCustomer(id) {
+      alert("🧑‍💼 ข้อมูลลูกค้า ID: " + id);
+      // ไปหน้า view ได้ถ้าต้องการ
+    }
+  </script>
+
+</body>
+</html>

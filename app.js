@@ -71,3 +71,9 @@ app.use(session({
     saveUninitialized: false, // เปลี่ยนเป็น false เพื่อป้องกัน session ว่าง
     cookie: { secure: false } // เปิด secure เฉพาะใช้ HTTPS
 }));
+
+const ordersRoutes = require("./routes/orders");
+const customersRoutes = require("./routes/customers");
+
+app.use("/orders", checkAuth, ordersRoutes);
+app.use("/customers", checkAuth, customersRoutes);
