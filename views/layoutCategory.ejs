@@ -4,20 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style_c.css">
 </head>
 <body>
     <%- include('partial/header') %>
     <main>
         <%- body %>
     </main>
-    <% if (errorMessage) { %>
-        <script type="text/javascript">
-            alert("<%= errorMessage %>");
-        </script>
-    <% } %>
 </body>
-<footer>
-    <%- include('partial/footer') %>
-</footer>
 </html>
