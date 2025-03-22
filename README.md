@@ -4,7 +4,7 @@ if not clone use command to install packages
 ```
 npm i 
 ```
-To Install database change database url in env file
+To Install database change database url in *env* file
 
 DATABASE_URL="mysql://root:password@localhost:3306/db-name"
 
