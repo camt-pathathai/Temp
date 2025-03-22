@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>เข้าสู่ระบบ</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>TEMP Shop</h1>
+            <p>Login to access our services.</p>
+        </div>
+        <form id="loginForm" >
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Enter your password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+           document.getElementById("loginForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const jsonData = Object.fromEntries(formData.entries());
+
+    const response = await fetch("/login", {
+        method: "POST",
+        body: JSON.stringify(jsonData),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    const result = await response.json();
+
+    if (result.success && result.payload.role === 'admin') {
+        console.log("🔹 Received Token:", result.token); // Debugging
+        localStorage.setItem("authToken", result.token);
+        
+        Swal.fire({
+            icon: "success",
+            title: "Login successful!",
+            text: "You are being redirected to Dashboard...",
+            confirmButtonText: "OK"
+        }).then(() => {
+            window.location.replace("/dashboard");
+        });
+    } else if (result.success && result.payload.role === 'user') {
+        console.log("🔹 Received Token:", result.token); // Debugging
+        localStorage.setItem("authToken", result.token);
+        console.log("🔹 Received id:", result.id);
+        localStorage.setItem("userId", result.id);
+
+
+        Swal.fire({
+            icon: "success",
+            title: "Login successful!",
+            text: "You are being redirected to Products...",
+            confirmButtonText: "OK"
+        }).then(() => {
+            window.location.replace("/products");
+        });
+    }else {
+        Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: result.msg,
+            confirmButtonText: "Try again"
+        });
+    }
+});
+        </script>
+
+
+        <div class="auth-footer">
+            <span>Don't have account ?</span>
+            <span>|</span>
+            <a href="/register">Sign Up</a></p>
+        </div>
+    </div>
+</body>
+
+</html>

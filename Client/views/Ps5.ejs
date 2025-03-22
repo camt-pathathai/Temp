@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playstation 5</title>
+    <link rel="stylesheet" href="/css/styles_category.css" />
+    
+</head>
+<body>
+
+  <%- include("partials/header"); -%>
+
+  <div class="recommended-products">
+    <h1>Welcome to PS5</h1>
+    <div class="product-container">
+        <% products.forEach((product, index) => { %>
+            <% if (index === 0) { %>
+                <div class="product large">
+                    <h3>Latest Game!</h3>
+                    <img class="product-image" src="/image/<%= product.image && product.image[0] ? product.image[0].name : 'placeholder.jpg' %>" alt="Product Image" />
+                    <p><br><%= product.name %><br>$<%= product.price %></p>
+                </div>
+              <% } %>
+            <% if (index % 6 === 0) { %>
+                <div class="page-group">
+            <% } %>
+            <% if (index % 3 === 0) { %>
+                <div class="product-row">
+            <% } %>
+            <div class="product" data-id="<%= product.id %>">
+                <img class="product-image" src="/image/<%= product.image && product.image[0] ? product.image[0].name : 'placeholder.jpg' %>" alt="Product Image" />
+                <p><%= product.name %><br>$<%= product.price %><br>
+                    <span style="display: none;"><%= product.quantity %>=<%= product.categories.map(c => c.category.name).join(", ") %>=
+                        <%= product.description %>=<%= product.id %></span></p>
+            </div>
+            <% if (index % 3 === 2) { %>
+                </div>
+            <% } %>
+            <% if (index % 6 === 5) { %>
+                </div>
+            <% } %>
+        <% }); %>
+        <% if (products.length % 3 !== 0) { %></div><% } %>
+        <% if (products.length % 6 !== 0) { %></div><% } %>
+    </div>
+    <div class="button-container">
+        <button class="back">Back</button>
+        <button class="prev-btn disabled" disabled>Previous</button>
+        <button class="next-btn">Next</button>
+    </div>
+</div>
+
+
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const productsPerPage = 6; // Each page contains 2 rows (wrapped in .page-group)
+    let currentPage = 0;
+    const productPages = document.querySelectorAll(".page-group"); // Select all groups of 2 rows
+    const totalPages = productPages.length;
+    const prevBtn = document.querySelector(".prev-btn");
+    const nextBtn = document.querySelector(".next-btn");
+
+    // Function to update which pages are visible
+    function updatePagination() {
+
+        if (totalPages === 0) {
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            prevBtn.classList.add("disabled");
+            nextBtn.classList.add("disabled");
+            return; // Exit the function as there's no need to update further
+        }
+
+        productPages.forEach((page, index) => {
+            page.style.display = index === currentPage ? "block" : "none"; // Show only the current page
+        });
+
+        // Disable/enable buttons based on current page
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage === totalPages - 1;
+
+        prevBtn.classList.toggle("disabled", currentPage === 0);
+        nextBtn.classList.toggle("disabled", currentPage === (totalPages - 1 || 0 ));
+    }
+
+    // Handle "Previous" button click
+    prevBtn.addEventListener("click", function () {
+        if (currentPage > 0) {
+            currentPage--;
+            updatePagination();
+        }
+    });
+
+    // Handle "Next" button click
+    nextBtn.addEventListener("click", function () {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            updatePagination();
+        }
+    });
+
+    // Initial page load
+    updatePagination();
+
+  
+
+  // Back button functionality (navigate to home page)
+  const backButton = document.querySelector(".back");
+  backButton.addEventListener("click", function () {
+    window.location.href = "/"; // Adjust as needed
+  });
+
+  const productRows = document.querySelectorAll(".product");
+    const modal = document.getElementById("productModal");
+    const closeModal = document.querySelector(".close-btn");
+    const modalImage = document.querySelector(".modal-image");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalQuantity = document.getElementById("modalQuantity");
+    const modalCategory = document.getElementById("modalCategory");
+    const modalDescript = document.getElementById("modalDescript");
+    const addToBasketBtn = document.getElementById("addToBasketBtn");
+
+    let basketCount = 0;
+    let selectedProduct = {};
+
+    productRows.forEach(product => {
+        product.addEventListener("click", function () {
+            const productImage = product.querySelector(".product-image").src;
+            const productDetails = product.querySelector("p").innerText.split("\n");
+            const productTitle = productDetails[0];
+            const productPrice = parseFloat(productDetails[1].replace("$", ""));
+            const modalDetails = product.querySelector("span").innerText.split("=");
+            const productQuantity = modalDetails[0]; // Extract stock quantity
+            const productCategory = modalDetails[1];
+            const productDescript = modalDetails[2];
+            const productId = product.getAttribute("data-id");
+
+            selectedProduct = {
+                id: productId,
+                name: productTitle,
+                price: productPrice,
+                quantity: 1 // Default quantity is 1
+            };
+
+            modalImage.src = productImage;
+            modalTitle.innerText = productTitle;
+            modalPrice.innerText = productPrice;
+            modalQuantity.innerText = `In stock: ${productQuantity}`;
+            modalQuantity.innerText = `Category: ${productCategory}`;
+            modalDescript.innerText = `Description: ${productDescript}`;
+            modal.style.display = "flex";
+        });
+    });
+
+    closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", function (e) {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    addToBasketBtn.addEventListener("click", function () {
+    if (!selectedProduct.id) {
+        alert("No product selected!");
+        return;
+    }
+
+    const userId = localStorage.getItem("userId"); // Get userId from localStorage
+
+    //console.log(userId);
+
+    if (!userId) {
+        alert("Please login to access our services!");
+        return;
+    }
+
+    // Send data to backend to update cart
+    fetch("/cart", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            userId: userId, // Include userId in the request
+            productId: selectedProduct.id,
+            price: selectedProduct.price,
+            count: selectedProduct.quantity,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            modal.style.display = "none";
+            alert("Product was added to cart.");
+        } else {
+            alert("Failed to add to cart. Please try again.");
+        }
+    })
+    .catch(error => console.error("Error adding to cart:", error));
+});
+
+});
+      </script>
+      
+      <div id="productModal" class="modal">
+        <div class="modal-content">
+          <span class="close-btn">&times;</span>
+          <div id="modalImage">
+            <img src="" alt="Product Image" class="modal-image" />
+          </div>
+          <div id="modalDetails">
+            <p id="modalTitle"></p>
+            <p id="modalPrice"></p>
+            <p id="modalQuantity"></p>
+            <p id="modalCategory"></p>
+            <p id="modalDescript"></p>   
+            <button id="addToBasketBtn">Add to Basket</button>
+            
+            
+          </div>
+        </div>
+      </div>
+
+</body>
+
+
+</html>

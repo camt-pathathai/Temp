@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles_admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <style>
+        /* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+.close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+input, textarea {
+        border: solid;
+        border-radius: 5px;
+
+    }
+
+    .btn-delete{
+        padding: 2px;
+        border: solid;
+    }
+
+    .category-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 products per row by default */
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #ddd; /* Optional: for better visual separation */
+    border-radius: 5px;
+}
+        
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <%- include('partials/sidebar', { currentPage: 'categories' }) %>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header>
+                <h1 class="text-2xl font-bold text-slate-700 dark:text-white transition-colors duration-300">Catagories</h1>
+                <button id="openAddCategoryModal" class="btn-primary" onclick="openAddCategoryModal()">
+                    <i class="fas fa-plus"></i> Add Category
+                </button>
+                
+            </header>
+
+            <section class="category-list">
+                <% categories.forEach(category => { %>
+                    <div class="category-item" data-id="<%= category.id %>" style="margin-bottom: 10px ;">
+                        <h3 style="margin-bottom: 5px ;"><%= category.name %></h3>
+                        <div class="category-actions">
+                            <!--- <button onclick="editCategory('<%= category.id %>')" class="btn-edit">✏️ Edit</button> -->
+                            <button onclick="deleteCategory('<%= category.id %>')" class="btn-delete"><i class="fa-solid fa-trash-can"></i> Remove</button>
+                        </div>
+                    </div>
+                <% }); %>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Category Modal -->
+<div id="addCategoryModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAddCategoryModal()">&times;</span>
+        <h2>Add Category</h2>
+        <input type="text" id="categoryName" placeholder="Enter category name">
+        <button onclick="addCategory()" class="btn-primary" style="margin-top: 10px;">Add</button>
+    </div>
+</div>
+
+
+    <script>
+        async function deleteCategory(categoryId) {
+    if (!confirm("Are you sure you want to delete this category?")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/category/${categoryId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const data = await response.json(); // Ensure JSON response is parsed
+
+        if (data.success) {
+            // Remove category from the DOM
+            document.querySelector(`[data-id="${categoryId}"]`).remove();
+            alert("Category deleted successfully.");
+        } else {
+            alert(`Failed to delete category: ${data.msg || "Unknown error"}`);
+            console.error("Delete error:", data);
+        }
+    } catch (error) {
+        console.error("Network or server error:", error);
+        alert("An error occurred while deleting the category.");
+    }
+}
+
+// Open and Close Modal
+function openAddCategoryModal() {
+    document.getElementById("addCategoryModal").style.display = "block";
+}
+
+function closeAddCategoryModal() {
+    document.getElementById("addCategoryModal").style.display = "none";
+}
+
+// Function to Add Category
+async function addCategory() {
+    const categoryName = document.getElementById("categoryName").value.trim();
+
+    if (!categoryName) {
+        alert("Please enter a category name.");
+        return;
+    }
+
+    try {
+        const response = await fetch("/category", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: categoryName }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Category added successfully!");
+            location.reload(); // Refresh page to show new category
+        } else {
+            alert(`Failed to add category: ${data.msg}`);
+        }
+    } catch (error) {
+        console.error("Error adding category:", error);
+        alert("An error occurred while adding the category.");
+    }
+}
+
+    </script>
+</body>
+</html>

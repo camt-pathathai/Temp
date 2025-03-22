@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Default Advanced Marker</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    
+  </head>
+  <body>
+    <header>
+        <div class="navbar">
+            <div class="logo">TEMP</div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#our-products">All Products</a></li>
+                    <li>
+                        <a href="#" id="basket">Basket
+                            <span id="basket-count" class="basket-icon" style="display: none">0</span>
+                        </a>
+                    </li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d660.2722789786955!2d-0.1560636189964499!3d51.51893202727354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761acc3515bf7d%3A0xdad5f0aa1a044029!2zNTYgQmFrZXIgU3QsIExvbmRvbiBXMVUgN0JVIOC4quC4q-C4o-C4suC4iuC4reC4suC4k-C4suC4iOC4seC4geC4ow!5e1!3m2!1sth!2sth!4v1742308417635!5m2!1sth!2sth" width="1500" height="700" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    <!-- prettier-ignore -->
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "AIzaSyAoJLAKqtBeiNzfGmthTMMXO7v1EIXcc-0", v: "weekly"});
+        
+        async function initMap() {
+  // Request needed libraries.
+  const { Map } = await google.maps.importLibrary("maps");
+  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  const map = new Map(document.getElementById("map"), {
+    center: { lat: 37.4239163, lng: -122.0947209 },
+    zoom: 15,
+    mapId: "4504f8b37365c3d0",
+  });
+  const marker = new AdvancedMarkerElement({
+    map,
+    position: { lat: 37.4239163, lng: -122.0947209 },
+  });
+}
+
+initMap();    
+    </script>
+  </body>
+</html>

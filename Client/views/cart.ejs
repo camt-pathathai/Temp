@@ -1,0 +1,11 @@
+<h1>Your Cart</h1>
+<ul>
+    <% cartItems.forEach(item => { %>
+        <li>
+            <strong><%= item.product.name %></strong> - 
+            Quantity: <%= item.count %> - 
+            Total: $<%= item.price %>
+        </li>
+    <% }) %>
+</ul>
+<a href="/checkout">Proceed to Checkout</a>

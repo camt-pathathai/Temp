@@ -1,0 +1,255 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+header {
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    background-color: #0c2756;  /* สีฟ้าเข้ม */
+    color: #ffffff;  /* เพิ่มสีข้อความ (สีขาว) */
+    padding: 20px 30px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;  /* เพิ่มฟอนต์ (คุณสามารถเปลี่ยนฟอนต์ตามต้องการ) */
+    font-style: italic;  /*ทำให้ข้อความเป็นตัวเอียง */
+    position: absolute;
+    left: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.recommended-products {
+    text-align: center;
+    background-color: #ffffff;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    position: fixed;
+    top: 80px; /* Adjust to avoid navbar */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+.recommended-products h1 {
+    font-size: 30px;
+    margin-top: -10px;
+}
+
+.product-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.recommended-products .product {
+    width: 220px;
+    height: 310px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    transition: transform 0.3s ease;
+}
+
+.recommended-products .product:hover {
+    border-color: #1d478b;
+}
+
+.recommended-products .product-image {
+    margin-top: 5px;
+    width: 90%;
+    height: 80%;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.recommended-products p {
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Large image */
+.product.large {
+    width: 400px;
+    height: 644px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+/* ปรับ hover สำหรับปุ่มที่เปิดใช้งาน */
+button:not(:disabled):hover {
+    background-color: #1d478b;
+    color: white;
+}
+
+/* สำหรับปุ่มที่ถูก disabled (ไม่สามารถใช้งานได้) จะไม่มีการเปลี่ยนสี */
+button:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    background-color: #e0e0e0;
+    color: black;
+}
+
+/* Initially hide product lists 3 and 4 */
+.product-list-3, .product-list-4 {
+    display: none;
+}
+
+/* Disable the button when it's inactive */
+.disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+.back {
+    margin-right: 30px;
+}
+
+/* Style for modal */
+.modal {
+    display: none; /* Initially hide the modal */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Close button for modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Modal image */
+.modal-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Style for the modal details */
+#modalDetails {
+    margin-top: 15px;
+}
+
+#addToBasketBtn {
+    padding: 10px 20px;
+    background-color: #0c2756;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#addToBasketBtn:hover {
+    background-color: #1d478b;
+}
+
+.product-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Adds space between products in a row */
+    margin-bottom: 20px; /* Adds space between rows */
+}
+
+.btn-search {
+    background: #3498DB;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-search:hover {
+    background: #2980B9;
+}
+

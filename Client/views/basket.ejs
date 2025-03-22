@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <style>
+    body {
+      font-family: "Montserrat", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      margin-top: 80px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #0c2756;
+      color: #ffffff;
+      padding: 20px 30px;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      font-style: italic;
+      position: absolute;
+      left: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .basket-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .item img {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+    }
+
+    .quantity button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .quantity span {
+      margin: 0 10px;
+      font-size: 18px;
+    }
+
+    .btn-search {
+    background: #3498DB;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-search:hover {
+    background: #2980B9;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <%- include("partials/header"); -%>
+
+  <div class="container">
+    <h2 class="basket-title">BASKET</h2>
+
+    <p id="item-count">
+      <%= cartItems.reduce((total, item) => total + item.count, 0) %> 
+      <%= cartItems.reduce((total, item) => total + item.count, 0) === 1 ? 'ITEM' : 'ITEMS' %>
+    </p>
+
+    <ul id="cart-items">
+      <% cartItems.forEach((item) => { %>
+        <li class="item">
+          <img src="/image/<%= item.product.image && item.product.image[0] ? item.product.image[0].name : 'placeholder.jpg' %>" alt="<%= item.product.name %>">
+          <div><strong><%= item.product.name %></strong></div>
+          <div class="quantity">
+            <button class="decrease" data-id="<%= item.product.id %>">-</button>
+            <span class="item-count"><%= item.count %></span>
+            <button class="increase" data-id="<%= item.product.id %>">+</button>
+          </div>
+          <div><strong>$<%= (item.price * item.count).toFixed(2) %></strong></div>
+          <form action="/cart/remove/<%= item.product.id %>" method="POST">
+            <button type="button" class="remove-btn" onclick="removeItemFromCart('<%= item.product.id %>')">Remove</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+
+    <h3 id="cart-total">Total: $<%= cartItems.reduce((total, item) => total + item.price * item.count, 0).toFixed(2) %></h3>
+    <a href="/checkout">Proceed to Checkout</a>
+  </div>
+
+  <script>
+    async function updateCartTotal(cartItems) {
+      const total = cartItems.reduce((sum, item) => sum + item.product.price * item.count, 0).toFixed(2);
+      document.getElementById('cart-total').textContent = `Total: $${total}`;
+    }
+
+    async function updateItemQuantity(productId, change) {
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) {
+        alert('User not logged in!');
+        return;
+      }
+
+      const response = await fetch(`/cart/update/${productId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userId}`
+        },
+        body: JSON.stringify({ count: change }),
+      });
+
+      if (response.ok) {
+        const updatedCart = await response.json();
+        document.getElementById('cart-items').innerHTML = renderCartItems(updatedCart.cartItems);
+        document.getElementById('item-count').textContent = `${updatedCart.cartItems.reduce((total, item) => total + item.count, 0)} ITEM${updatedCart.cartItems.length > 1 ? 'S' : ''}`;
+        updateCartTotal(updatedCart.cartItems);
+        attachEventListeners();
+      } else {
+        alert('Item amount must be at least 1');
+      }
+    }
+
+    function renderCartItems(cartItems) {
+      return cartItems.map(item => `
+        <li class="item">
+          <img src="/image/${item.product.image?.[0]?.name || 'placeholder.jpg'}" alt="${item.product.name}">
+          <div><strong>${item.product.name}</strong></div>
+          <div class="quantity">
+            <button class="decrease" data-id="${item.product.id}">-</button>
+            <span class="item-count">${item.count}</span>
+            <button class="increase" data-id="${item.product.id}">+</button>
+          </div>
+          <div><strong>$${(item.product.price * item.count).toFixed(2)}</strong></div>
+          <form action="/cart/remove/${item.product.id}" method="POST">
+            <button type="button" class="remove-btn" onclick="removeItemFromCart('${item.product.id}')">Remove</button>
+          </form>
+        </li>
+      `).join('');
+    }
+
+    function attachEventListeners() {
+      document.querySelectorAll('.increase').forEach(button => {
+        button.addEventListener('click', async (event) => {
+          const productId = event.target.getAttribute('data-id');
+          const currentCount = parseInt(event.target.parentElement.querySelector('.item-count').textContent);
+          await updateItemQuantity(productId, currentCount + 1);
+        });
+      });
+
+      document.querySelectorAll('.decrease').forEach(button => {
+        button.addEventListener('click', async (event) => {
+          const productId = event.target.getAttribute('data-id');
+          const currentCount = parseInt(event.target.parentElement.querySelector('.item-count').textContent);
+          if (currentCount > 1) {
+            await updateItemQuantity(productId, currentCount - 1);
+          }
+        });
+      });
+    }
+
+    async function removeItemFromCart(productId) {
+  const userId = localStorage.getItem('userId');
+
+  if (!userId) {
+    alert('User not logged in!');
+    return;
+  }
+
+  const confirmDelete = confirm('Are you sure you want to remove this item from your cart?');
+  if (!confirmDelete) {
+    return;
+  }
+
+  const response = await fetch(`/cart/remove/${productId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${userId}`
+    }
+  });
+
+  if (response.ok) {
+    //alert('Item successfully removed.');
+    window.location.reload(); // Refresh the cart
+  } else {
+    alert('Failed to remove item.');
+  }
+}
+
+
+
+    attachEventListeners();
+  </script>
+
+</body>
+</html>

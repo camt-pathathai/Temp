@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>สมัครสมาชิก</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-header">
+      <h1>Sign Up</h1>
+      <p>Create an administrator account</p>
+    </div>
+    <form id="registerForm">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="Enter your email">
+        </div>
+         <!---<div class="form-group">
+            <label>ชื่อผู้ใช้</label>
+            <input type="text" name="username" required placeholder="ตั้งชื่อผู้ใช้">
+        </div>--->
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required placeholder="Enter your password">
+        </div>
+        <button type="submit" class="btn btn-primary">Sign up</button>
+    </form>
+    
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Prevent page reload
+
+            const formData = new FormData(this);
+            const jsonData = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch("/admin/register", {
+                    method: "POST",
+                    body: JSON.stringify(jsonData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.msg);
+                }
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Sign up successful!",
+                        text: "You are being redirected to Login...",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        window.location.replace("/admin");
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Sign up Failed!",
+                    text: error.message,
+                    confirmButtonText: "Try again"
+                });
+            }
+        });
+    </script>
+    
+    <div class="auth-footer">
+        <span>Already have account?</span>
+        <span>|</span>
+        <a href="/admin">Login</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Shop</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<style>
+.recommended-products .product-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 products per row by default */
+    gap: 20px; /* Space between items */
+    justify-items: center; /* Center the items */
+    margin-top: 20px;
+}
+
+.recommended-products .product {
+    width: 100%; /* Ensure products take the full column width */
+    text-align: center; /* Center text under images */
+}
+
+.recommended-products .product img {
+    width: 100%; /* Make the images responsive */
+    height: auto;
+    max-width: 300px; /* Max width for images */
+}
+
+/* Media query for mobile devices (screen width <= 768px) */
+@media (max-width: 768px) {
+    .recommended-products .product-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 products per row on mobile */
+    }
+}
+
+
+</style>
+
+<body>
+    
+    <%- include("partials/header"); -%>
+
+    <main>
+        <section class="banner">
+            <div class="banner-text">
+                <h1>disk games shop</h1>
+                <p>
+                    Discover and buy your favorite disk games with us! Buy, play, and
+                    enjoy top-quality disk games!
+                </p>
+                <a href="#our-products" class="shop-button">Shop Now</a>
+            </div>
+            <img src="/image/SuperMario Banner.jpg" alt="Banner Image" class="banner-image" />
+        </section>
+
+        <section class="categories">
+            <div class="category">
+                <a href="/register"><img src="/image/bnc1.png" alt="Register for Use" class="category-image" /></a>
+            </div>
+            <div class="category">
+                <a id="basketbanner"><img src="/image/bnc2.png" alt="Check Basket" class="category-image" /></a>
+            </div>
+            <div class="category">
+                <a href="/contact"><img src="/image/bnc3.png" alt="Contact Admin Click Here!" class="category-image" /></a>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stat-box">Total Products <span>0</span> Items</div>
+            <div class="stat-box">Total Stock <span>0</span> Items</div>
+            <div class="stat-box">Total Sold <span>0</span> Items</div>
+        </section>
+
+        <section class="new-categories" id="our-products">
+            <h2>Our Products</h2>
+
+            <div class="category-container">
+                <a href="/products/nintendo" class="category category-ntd">
+                    <img src="/image/ctgr1.png" alt="Nintendo" />
+                    <p>Nintendo</p>
+                </a>
+                <a href="/products/xbox" class="category category-xb">
+                    <img src="/image/ctgr2.png" alt="Xbox" />
+                    <p>Xbox</p>
+                </a>
+            </div>
+
+            <div class="category-container">
+                <a href="/products/ps4" class="category category-ps4">
+                    <img src="/image/ctgr3.png" alt="PlayStation 4" />
+                    <p>PlayStation 4</p>
+                </a>
+                <a href="/products/ps5" class="category category-ps5">
+                    <img src="/image/ctgr4.png" alt="PlayStation 5" />
+                    <p>PlayStation 5</p>
+                </a>
+            </div>
+
+            <div class="category-container">
+                <a href="/products/gamesir" class="category category-sir">
+                    <img src="/image/ctgr5.png" alt="Games Sir" />
+                    <p>Games Sir</p>
+                </a>
+                <div class="category category-dummy"></div>
+            </div>
+        </section>
+
+        <!-- Section for Recommended Products -->
+        <section class="recommended-products" id="recommended-products">
+            <h2>Recommended Products</h2>
+
+            <div class="product-container">
+            <% products.forEach((product, index) => { %>
+                <div class="product" data-id="<%= product.id %>" >
+                    <img class="product-image" src="/image/<%= product.image && product.image[0] ? product.image[0].name : 'placeholder.jpg' %>" alt="Product Image" />
+                    <p><%= product.name %></p>
+                </div>
+            <% }); %>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2025 TEMP Shop. All rights reserved.</p>
+            </div>
+            <div class="footer-right">
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+<script src="/js/script.js"></script>
+
+
+</html>
