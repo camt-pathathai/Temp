@@ -66,7 +66,23 @@ exports.cartupdate = async (req, res) => {
       data: { count: parseInt(count) },
     });
 
-    // Retrieve updated cart
+    // Recalculate the cart total
+    const cartItems = await prisma.productOnCart.findMany({
+      where: { cartId: userCart.id },
+      include: { product: true },
+    });
+
+    const cartTotal = cartItems.reduce((total, item) => {
+      return total + item.count * item.product.price;
+    }, 0);
+
+    // Update cartTotal in the database
+    await prisma.cart.update({
+      where: { id: userCart.id },
+      data: { cartTotal },
+    });
+
+    // Retrieve updated cart with correct total
     const updatedCart = await prisma.cart.findUnique({
       where: { id: userCart.id },
       include: {
@@ -74,13 +90,14 @@ exports.cartupdate = async (req, res) => {
       },
     });
 
-    res.json({ cartItems: updatedCart?.ProductOnCart || [] });
+    res.json({ cartTotal, cartItems: updatedCart?.ProductOnCart || [] });
 
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to update cart item' });
   }
 };
+
 
 
 
