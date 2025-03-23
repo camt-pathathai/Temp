@@ -1,0 +1,32 @@
+<aside id="sidebar" class="w-64 bg-slate-800 text-white p-6 hidden md:block transition-all duration-500 ease-in-out">
+    <h2 class="text-2xl font-bold mb-6">ADMIN</h2>
+    <nav>
+      <ul class="space-y-4">
+        <li>
+          <a href="/dashboard" class="block py-2 px-3 rounded <%= currentPage === 'dashboard' ? 'bg-slate-700' : 'hover:bg-slate-700' %>">
+            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="/products" class="block py-2 px-3 rounded <%= currentPage === 'products' ? 'bg-slate-700' : 'hover:bg-slate-700' %>">
+            <i class="fas fa-gamepad me-2"></i> Products
+          </a>
+        </li>
+        <li>
+          <a href="/categories" class="block py-2 px-3 rounded <%= currentPage === 'categories' ? 'bg-slate-700' : 'hover:bg-slate-700' %>">
+            <i class="fas fa-tags me-2"></i> Categories
+          </a>
+        </li>
+        <li>
+          <a href="/orders" class="block py-2 px-3 rounded <%= currentPage === 'orders' ? 'bg-slate-700' : 'hover:bg-slate-700' %>">
+            <i class="fas fa-shopping-cart me-2"></i> Orders
+          </a>
+        </li>
+        <li>
+          <a href="/customers" class="block py-2 px-3 rounded <%= currentPage === 'customers' ? 'bg-slate-700' : 'hover:bg-slate-700' %>">
+            <i class="fas fa-users me-2"></i> Customers
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>

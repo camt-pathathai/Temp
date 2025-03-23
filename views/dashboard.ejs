@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ทำให้ Sidebar Scroll ได้ */
+    #sidebar {
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
+
+  <div class="flex min-h-screen">
+    <%- include('partials/sidebar', { currentPage: 'dashboard' }) %>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <!-- Header -->
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-slate-700 dark:text-white transition-colors duration-300">Dashboard</h1>
+        <div class="space-x-2 flex items-center">
+          <button id="darkModeToggle" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="toggleSidebar" class="bg-gray-700 text-white px-4 py-2 rounded md:hidden transition">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </header>
+
+      <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-yellow-400 text-white p-5 rounded shadow flex items-center space-x-4">
+            <i class="fas fa-coins text-3xl"></i>
+            <div>
+                <h3 class="text-lg font-bold">฿ <%= monthly_sales %></h3>
+                <p class="text-sm">Monthly_Sales</p>
+            </div>
+        </div>
+        <div class="bg-blue-400 text-white p-5 rounded shadow flex items-center space-x-4">
+            <i class="fas fa-boxes text-3xl"></i>
+            <div>
+                <h3 class="text-lg font-bold"><%= total_products %></h3>
+                <p class="text-sm">Total-Products</p>
+            </div>
+        </div>
+        <div class="bg-purple-400 text-white p-5 rounded shadow flex items-center space-x-4">
+            <i class="fas fa-users text-3xl"></i>
+            <div>
+                <h3 class="text-lg font-bold"><%= total_users %></h3>
+                <p class="text-sm">Total-Users</p>
+            </div>
+        </div>
+        <div class="bg-red-400 text-white p-5 rounded shadow flex items-center space-x-4">
+            <i class="fas fa-shopping-cart text-3xl"></i>
+            <div>
+                <h3 class="text-lg font-bold"><%= total_orders %></h3>
+                <p class="text-sm">Total-Orders</p>
+            </div>
+        </div>
+    </section>    
+    </main>
+  </div>
+
+  <script>
+    // โหลดธีมจาก localStorage เมื่อเริ่มหน้าเว็บ
+    document.addEventListener("DOMContentLoaded", function () {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+      }
+    });
+  
+    // ปุ่มสลับธีม
+    document.getElementById("darkModeToggle").addEventListener("click", function () {
+      document.body.classList.toggle("dark");
+      document.body.classList.add("transition-colors", "duration-500");
+  
+      // บันทึกสถานะธีมลง localStorage
+      if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+    });
+  
+    // ปุ่มเปิด/ปิด Sidebar บนมือถือ
+    document.getElementById("toggleSidebar").addEventListener("click", function () {
+      let sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+      sidebar.classList.toggle("translate-x-0");
+    });
+  </script>
+  
+
+</body>
+</html>
