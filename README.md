@@ -4,7 +4,6 @@ if not clone use command to install packages
 ```
 npm i 
 ```
-To Install database change database url in *.env* file
 To Install database change database url in ***.env*** file for your ***password*** and ***db-name***
 ```
 
