@@ -28,23 +28,7 @@
         margin-top: 20px;
     }
 
-    .recommended-products .product {
-        width: 100%; /* Ensure products take the full column width */
-        text-align: center; /* Center text under images */
-    }
 
-    .recommended-products .product img {
-        width: 100%; /* Make the images responsive */
-        height: auto;
-        max-width: 300px; /* Max width for images */
-    }
-
-    /* Media query for mobile devices (screen width <= 768px) */
-    @media (max-width: 768px) {
-        .recommended-products .product-container {
-            grid-template-columns: repeat(2, 1fr); /* 2 products per row on mobile */
-        }
-    }
 </style>
 
 <body>
@@ -53,79 +37,45 @@
 
     <main>
         <section class="banner">
-            <div class="banner-text">
-                <h1>disk games shop</h1>
-                <p>
-                    Discover and buy your favorite disk games with us! Buy, play, and
-                    enjoy top-quality disk games!
-                </p>
-                <a href="#our-products" class="shop-button">Shop Now</a>
-            </div>
-
-            <!-- Carousel Section for Super Mario -->
-            <div id="gameCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <!-- รูปแรก (active) -->
-                    <div class="carousel-item active">
-                        <a href="/sale-products" target="_self">
-                            <img src="/image/SuperMario Banner.jpg" class="d-block w-100" alt="Super Mario">
-                        </a>
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h1>disk games shop</h1>
+                    <p>
+                        Discover and buy your favorite disk games with us! Buy, play, and
+                        enjoy top-quality disk games!
+                    </p>
+                    <a href="#our-products" class="shop-button">Shop Now</a>
+                </div>
+                <div class="slideshow-container">
+                    <div class="slideshow-image">
+                        <img src="/image/SuperMario Banner.jpg" alt="Banner Image 1" onclick="openModal(this.src)" />
                     </div>
-            
-                    <!-- รูปที่ 2 -->
-                    <div class="carousel-item">
-                        <a href="/sale-products" target="_self">
-                            <img src="/image/1.png" class="d-block w-100" alt="Second Image">
-                        </a>
+                    <div class="slideshow-image">
+                        <img src="/image/S__1900574.jpg" alt="Banner Image 2" onclick="openModal(this.src)" />
                     </div>
-            
-                    <!-- รูปที่ 3 -->
-                    <div class="carousel-item">
-                        <a href="/sale-products" target="_self">
-                            <img src="/image/2.png" class="d-block w-100" alt="Third Image">
-                        </a>
+                    <div class="slideshow-image">
+                        <img src="/image/S__1900579.jpg" alt="Banner Image 3" onclick="openModal(this.src)" />
                     </div>
-            
-                    <!-- รูปที่ 4 -->
-                    <div class="carousel-item">
-                        <a href="/sale-products" target="_self">
-                            <img src="/image/3.png" class="d-block w-100" alt="Fourth Image">
-                        </a>
-                    </div>
-            
-                    <!-- รูปที่ 5 -->
-                    <div class="carousel-item">
-                        <a href="/sale-products" target="_self">
-                            <img src="/image/4.png" class="d-block w-100" alt="Fifth Image">
-                        </a>
+                    <!-- Add more images as needed -->
+                    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+                    <div class="dot-container">
+                        <span class="dot active-dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <!-- Add more dots as needed -->
                     </div>
                 </div>
-            
-                <!-- ปุ่มสำหรับเลื่อน carousel -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
-            
 
-    <!-- ปุ่มสำหรับเลื่อน carousel -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#gameCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#gameCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-
-            
         </section>
+        
+        <!-- Modal for enlarged image -->
+        <div id="myModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="img01">
+        </div>
+        
 
         <section class="categories">
             <div class="category">
@@ -211,7 +161,7 @@
     </footer>
     
 </body>
-<script src="/js/script.js">
+<script>
     async function fetchStats() {
         try {
             const response = await fetch('/stats'); // Fetch stats from backend
@@ -228,6 +178,52 @@
 
     // Fetch stats when the page loads or reloads
     window.onload = fetchStats;
+
+    // JavaScript for the slideshow
+    let slideIndex = 1;
+    const slides = document.querySelectorAll('.slideshow-image');
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlides(n) {
+        if (n > slides.length) { slideIndex = 1; }
+        if (n < 1) { slideIndex = slides.length; }
+
+        slides.forEach((slide, index) => {
+            slide.style.display = 'none';
+            dots[index].classList.remove('active-dot');
+        });
+
+        slides[slideIndex - 1].style.display = 'block';
+        dots[slideIndex - 1].classList.add('active-dot');
+    }
+
+    function changeSlide(n) {
+        slideIndex += n;
+        showSlides(slideIndex);
+    }
+
+    function currentSlide(n) {
+        slideIndex = n;
+        showSlides(slideIndex);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlides(slideIndex);
+        setInterval(() => { changeSlide(1); }, 3000); // Change image every 3 seconds
+    });
+
+    // JavaScript for the modal (click to enlarge image)
+    function openModal(src) {
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+        modal.style.display = "block";
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
 </script>
 
 </html>
