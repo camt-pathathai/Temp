@@ -21,6 +21,18 @@ app.use(cors());
 
 console.log(readdirSync('./routes'));
 readdirSync('./routes').map((routers) => app.use(require('./routes/'+ routers)));
+// กำหนดเส้นทางสำหรับหน้า "Sale Products"
+app.get('/sale-products', (req, res) => {
+    // ดึงข้อมูลสินค้าที่ลดราคา
+    const discountedProducts = [
+        { id: 1, name: 'Game A', salePrice: 19.99, originalPrice: 29.99, image: [{ name: 'gameA.jpg' }] },
+        { id: 2, name: 'Game B', salePrice: 9.99, originalPrice: 19.99, image: [{ name: 'gameB.jpg' }] },
+        // เพิ่มรายการสินค้าลดราคา
+    ];
+
+    res.render('sale-products', { discountedProducts });
+});
+
 
 
 

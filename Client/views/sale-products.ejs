@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sale Products</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <%- include("partials/header"); -%>
+
+    <section class="sale-products">
+        <div class="product-container">
+            <% discountedProducts.forEach((product) => { %>
+                <div class="product" data-id="<%= product.id %>">
+                    <img src="/image/<%= product.image && product.image[0] ? product.image[0].name : 'placeholder.jpg' %>" alt="Product Image">
+                    <p><%= product.name %></p>
+                    <p><strong>Sale Price:</strong> $<%= product.salePrice %> <del>$<%= product.originalPrice %></del></p>
+                </div>
+            <% }); %>
+        </div>
+    </section>
+
+</body>
+</html>
