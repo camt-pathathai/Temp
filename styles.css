@@ -19,7 +19,7 @@ header {
     width: 100%;
     justify-content: center;
     position: relative;
-    background-color: #042786;  /* เพิ่มสีพื้นหลัง (สีฟ้าเข้ม) */
+    background-color: #0c2756;  /* เพิ่มสีพื้นหลัง (สีฟ้าเข้ม) */
     color: #ffffff;  /* เพิ่มสีข้อความ (สีขาว) */
     padding: 20px 30px;
     
@@ -77,7 +77,7 @@ nav ul li a {
     color: white;
     padding: 20px;  /* ปรับค่าพื้นฐานของ padding */
     font-size: 24px;
-    width: 70%;
+    width: 73%;
     height: 300px;
     margin: 0 auto;
     border: 10px solid #ffffff;
@@ -111,7 +111,7 @@ nav ul li a {
 
 .banner-image {
     flex: 1;
-    max-width: 50%;  /* ให้รูปภาพแสดงครึ่งหนึ่งของ banner */
+    max-width: 60%;  /* ให้รูปภาพแสดงครึ่งหนึ่งของ banner */
     max-height: 90%;
     height: auto;
     object-fit: cover;
@@ -191,4 +191,373 @@ nav ul li a {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Styling for the new categories section */
+.new-categories {
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff; /* Background color to differentiate the section */
+}
+
+.new-categories h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Container for each row of categories */
+.category-container {
+    display: flex;
+    justify-content: center; /* Center the content */
+    margin-bottom: 20px;  /* Add space between rows */
+}
+
+/* Styling for each individual category */
+.new-categories .category {
+    width: 680px;  /* Two categories in each row */
+    height: 300px;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 10px;  /* Margin between categories */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-categories .category:hover {
+    transform: scale(0.95); /* Hover effect */
+}
+
+.new-categories .category-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;  /* เปลี่ยนจาก fill เป็น cover */
+    object-position: top center;  /* ให้รูปอยู่ตรงขอบบน */
+    border-radius: 10px;
+}
+
+
+.new-categories p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Custom Background Colors for each category */
+.category-ntd, .category-xb, .category-ps4, .category-ps5, .category-sir {
+    background-color: #ffffff; /* กำหนดสีพื้นหลังให้เป็นสีขาว */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+header {
+    background-color: #ffffff;
+    color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    background-color: #0c2756;  /* เพิ่มสีพื้นหลัง (สีฟ้าเข้ม) */
+    color: #ffffff;  /* เพิ่มสีข้อความ (สีขาว) */
+    padding: 20px 30px;
+    
+}
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    left: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;  /* เพิ่มระยะห่างระหว่าง token และ account */
+    position: absolute;
+    right: 30px;
+}
+
+.account {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #042786;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    color: white;
+    padding: 20px;  /* ปรับค่าพื้นฐานของ padding */
+    font-size: 24px;
+    width: 73%;
+    height: 300px;
+    margin: 0 auto;
+    border: 10px solid #ffffff;
+    border-radius: 20px;
+    gap: 0;  /* เอา gap ออกเพื่อให้ข้อความกับรูปชิดกัน */
+}
+
+.banner-text {
+    color: #000000;
+    flex: 1;
+    text-align: center;  /* จัดข้อความให้อยู่กลางในแนวนอน */
+    padding-left: 0;
+    max-width: 30%;
+    display: flex;  /* ใช้ flexbox */
+    flex-direction: column;  /* จัดข้อความในแนวตั้ง */
+    justify-content: center;  /* จัดข้อความในแนวตั้งให้ตรงกลาง */
+    align-items: center;  /* จัดข้อความในแนวนอนให้ตรงกลาง */
+}
+
+
+.shop-button {
+    display: inline-block;
+    background-color: #a70000;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.banner-image {
+    flex: 1;
+    max-width: 60%;  /* ให้รูปภาพแสดงครึ่งหนึ่งของ banner */
+    max-height: 90%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.main-content {
+    width: 70%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.categories {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    width: 73%;  /* ปรับให้ความกว้างเท่ากับ banner */
+    margin: 0 auto;
+    gap: 30px;  /* เพิ่มระยะห่างระหว่าง category */
+}
+
+.category {
+    width: 470px;  /* เปลี่ยนความกว้างของ category ให้ใหญ่ขึ้น */
+    height: 170px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease; /* เพิ่ม transition ที่ category ทั้งหมด */
+    display: flex;
+    flex-direction: column; /* จัดข้อความในแนวตั้ง */
+    justify-content: center;
+    align-items: center;
+}
+
+.category-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.category-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.category:hover {
+    transform: scale(0.95); /* ขยายทั้ง category เมื่อ hover */
+}
+
+.category p {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.stat-box {
+    background: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    text-align: center;
+    width: 20%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-container a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use the parent text color */
+    display: block; /* Make the entire box clickable */
+}
+
+.category-menu {
+    cursor: pointer; /* Show pointer cursor */
+}
+
+/* Styling for the new categories section */
+.new-categories {
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff; /* Background color to differentiate the section */
+}
+
+.new-categories h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Container for each row of categories */
+.category-container {
+    display: flex;
+    justify-content: center; /* Center the content */
+    margin-bottom: 20px;  /* Add space between rows */
+}
+
+/* Styling for each individual category */
+.new-categories .category {
+    width: 680px;  /* Two categories in each row */
+    height: 300px;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 10px;  /* Margin between categories */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-categories .category:hover {
+    transform: scale(0.95); /* Hover effect */
+}
+
+.new-categories .category-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;  /* เปลี่ยนจาก fill เป็น cover */
+    object-position: top center;  /* ให้รูปอยู่ตรงขอบบน */
+    border-radius: 10px;
+}
+
+
+.new-categories p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Custom Background Colors for each category */
+.category-ntd, .category-xb, .category-ps4, .category-ps5, .category-sir {
+    background-color: #ffffff; /* กำหนดสีพื้นหลังให้เป็นสีขาว */
+}
+
+/* กำหนดขนาดความกว้างของหน้า */
+.recommended-products {
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    max-width: 1390px;  /* กำหนดขนาดความกว้างสูงสุดของหน้า */
+    margin: 0 auto;    /* จัดกึ่งกลางหน้า */
+}
+
+.recommended-products h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.recommended-products .product {
+    width: 280px;
+    height: 400px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    transition: transform 0.3s ease;
+}
+
+.recommended-products .product:hover {
+    border-color: #1d478b;
+}
+
+
+.recommended-products .product-image {
+    width: 90%;
+    height: 90%;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.recommended-products p {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
 

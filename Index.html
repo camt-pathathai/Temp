@@ -1,44 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Game Shop</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
     <header>
         <div class="navbar">
             <div class="logo">Game Shop</div>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">All Products</a></li>
-                    <li><a href="#">Top Up</a></li>
+                    <li><a href="#main">Home</a></li>
+                    <li><a href="#our-products">All Products</a></li>
+                    <li><a href="#">Order Status</a></li>
                     <li><a href="#">Contact Us</a></li>
                 </ul>
             </nav>
+            <div class="nav-right">
+                <div class="account">Account: John Doe</div>
+            </div>
         </div>
     </header>
-    
+
     <main>
         <section class="banner">
+            <div class="banner-text">
+                <h1>disk games shop</h1>
+                <p>
+                    Discover and buy your favorite disk games with us! Buy, play, and
+                    enjoy top-quality disk games!
+                </p>
+                <a href="#our-products" class="shop-button">Shop Now</a>
+
+            </div>
+            <img src="SuperMario Banner.jpg" alt="Banner Image" class="banner-image" />
         </section>
-        
+
         <section class="categories">
-            <div class="category">Check Order Status</div>
-            <div class="category">Top Up to Purchase</div>
-            <div class="category">Register for Use</div>
-            <div class="category">Contact Admin Click Here!</div>
+            <div class="category">
+                <img src="ctgr/1.png" alt="Check Order Status" class="category-image" />
+            </div>
+            <div class="category">
+                <img src="ctgr/2.png" alt="Register for Use" class="category-image" />
+            </div>
+            <div class="category">
+                <img src="ctgr/3.png" alt="Contact Admin Click Here!" class="category-image" />
+            </div>
         </section>
-        
+
         <section class="stats">
             <div class="stat-box">Total Products <span>0</span> Items</div>
             <div class="stat-box">Total Stock <span>0</span> Items</div>
             <div class="stat-box">Total Sold <span>0</span> Items</div>
         </section>
+
+        <section class="new-categories" id="our-products">
+            <h2>Our Products</h2>
+
+            <div class="category-container">
+                <a href="Nintendo.html" class="category category-ntd">
+                    <img src="bnc/1.png" alt="Nintendo" />
+                    <p>Nintendo</p>
+                </a>
+                <a href="Xbox.html" class="category category-xb">
+                    <img src="bnc/2.png" alt="Xbox" />
+                    <p>Xbox</p>
+                </a>
+            </div>
+
+            <div class="category-container">
+                <a href="Ps4.html" class="category category-ps4">
+                    <img src="bnc/3.png" alt="PlayStation 4" />
+                    <p>PlayStation 4</p>
+                </a>
+                <a href="Ps5.html" class="category category-ps5">
+                    <img src="bnc/4.png" alt="PlayStation 5" />
+                    <p>PlayStation 5</p>
+                </a>
+            </div>
+
+            <div class="category-container">
+                <a href="Gamesir.html" class="category category-sir">
+                    <img src="bnc/5.png" alt="Games Sir" />
+                    <p>Games Sir</p>
+                </a>
+                <div class="category category-dummy"></div>
+            </div>
+        </section>
+
+
+        <!-- Section for Recommended Products -->
+        <section class="recommended-products" id="recommended-products">
+            <h2>Recommended Products</h2>
+
+            <!-- Row 1 -->
+            <div class="product-container">
+                <div class="product">
+                    <img src="Xbox/6.png" alt="Product 1" class="product-image" />
+                    <p>Xbox FC25 $69.99</p>
+                </div>
+                <div class="product">
+                    <img src="Xbox/11.png" alt="Product 2" class="product-image" />
+                    <p></p>
+                </div>
+                <div class="product">
+                    <img src="Xbox/1.png" alt="Product 3" class="product-image" />
+                    <p>Product 3</p>
+                </div>
+                <div class="product">
+                    <img src="Xbox/4.png" alt="Product 4" class="product-image" />
+                    <p>Product 4</p>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="product-container">
+                <div class="product">
+                    <img src="Gamesir/1.png" alt="Product 5" class="product-image" />
+                    <p>Product 5</p>
+                </div>
+                <div class="product">
+                    <img src="Gamesir/3.png" alt="Product 6" class="product-image" />
+                    <p>Product 6</p>
+                </div>
+                <div class="product">
+                    <img src="Gamesir/7.png" alt="Product 7" class="product-image" />
+                    <p>Product 7</p>
+                </div>
+                <div class="product">
+                    <img src="Gamesir/12.png" alt="Product 8" class="product-image" />
+                    <p>Product 8</p>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="product-container">
+                <div class="product">
+                    <img src="PlayStation4/9.png" alt="Product 9" class="product-image" />
+                    <p>Product 9</p>
+                </div>
+                <div class="product">
+                    <img src="PlayStation4/10.png" alt="Product 10" class="product-image" />
+                    <p>Product 10</p>
+                </div>
+                <div class="product">
+                    <img src="PlayStation5/11.png" alt="Product 11" class="product-image" />
+                    <p>Product 11</p>
+                </div>
+                <div class="product">
+                    <img src="PlayStation5/12.png" alt="Product 12" class="product-image" />
+                    <p>Product 12</p>
+                </div>
+            </div>
+
+        </section>
+
+
     </main>
-    
-    <script src="script.js"></script>
+
+    <script src="script.js">
+            document.querySelector('.category-ntd').onclick = () => location.href = 'Nintendo.html';
+            document.querySelector('.category-xb').onclick = () => location.href = 'Xbox.html';
+            document.querySelector('.category-ps4').onclick = () => location.href = 'PlayStation4.html';
+            document.querySelector('.category-ps5').onclick = () => location.href = 'PlayStation5.html';
+            document.querySelector('.category-sir').onclick = () => location.href = 'GamesSir.html';
+    </script>
 </body>
+
 </html>

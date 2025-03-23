@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เพิ่มสินค้าใหม่</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
+
+    <div class="flex min-h-screen">
+        <%- include('partials/sidebar', { currentPage: 'products' }) %>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 flex justify-center items-center">
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-lg">
+                <h2 class="text-2xl font-bold mb-4 text-gray-700 dark:text-white">Add-game</h2>
+                <form action="/products/add" method="POST" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">Name</label>
+                        <input type="text" name="name" required class="w-full p-2 border rounded dark:bg-gray-700">
+                    </div>
+
+                    <div>
+                        <label
+                            class="block text-sm font-semibold text-gray-600 dark:text-gray-300">Description</label>
+                        <textarea name="description" required
+                            class="w-full p-2 border rounded dark:bg-gray-700"></textarea>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div class="w-1/2">
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">normal_price</label>
+                            <input type="number" name="normal_price" required
+                                class="w-full p-2 border rounded dark:bg-gray-700">
+                        </div>
+                        <div class="w-1/2">
+                            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">Special-price
+                                (if)</label>
+                            <input type="number" name="promo_price" class="w-full p-2 border rounded dark:bg-gray-700">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">Platform</label>
+                        <select name="platform_id" required class="w-full p-2 border rounded dark:bg-gray-700">
+                            <option value="">--Select-Platforms--</option>
+                            <option value="1">Nintendo</option>
+                            <option value="2">Xbox</option>
+                            <option value="3">PS4</option>
+                            <option value="4">PS5</option>
+                            <option value="5">Game accessories</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">Game-Type</label>
+                        <select name="game_category_id" required class="w-full p-2 border rounded dark:bg-gray-700">
+                            <option value="">--Select-Type--</option>
+                            <option value="1">Action</option>
+                            <option value="2">Adventure</option>
+                            <option value="3">RPG</option>
+                            <option value="4">Shooter</option>
+                            <option value="5">Sports</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300">URL</label>
+                        <input type="text" name="image" id="imageURL" required
+                            class="w-full p-2 border rounded dark:bg-gray-700">
+                        <img id="previewImage" src="" class="w-full h-40 object-cover mt-2 hidden rounded">
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">ADD Game</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // แสดง Preview รูปภาพ
+        document.getElementById("imageURL").addEventListener("input", function () {
+            const img = document.getElementById("previewImage");
+            img.src = this.value;
+            img.classList.remove("hidden");
+        });
+    </script>
+
+</body>
+
+</html>

@@ -734,3 +734,30 @@ header {
     margin: 0;
     padding: 0;
   }
+  .sale-products .product-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 products per row */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.sale-products .product {
+    width: 100%;
+    text-align: center;
+}
+
+.sale-products .product img {
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+}
+
+.sale-products .product p {ห
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.sale-products .product del {
+    color: red; /* สีขีดทิ้งราคาเดิม */
+    font-size: 14px;
+}
