@@ -35,7 +35,119 @@
     }
 }
 
+/* Add styles for the slideshow */
+.banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.banner-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.slideshow-container {
+    position: relative;
+    max-width: 50%; /* Adjust the width as needed */
+    margin: auto;
+    overflow: hidden;
+}
+
+.slideshow-image {
+    width: 100%;
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+/* Add styles for the navigation buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: black; /* Change button color to black */
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* Add styles for the navigation dots */
+.dot-container {
+    text-align: center;
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active-dot {
+    background-color: #717171;
+}
+
+/* Add styles for the modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
 </style>
 
 <body>
@@ -44,16 +156,44 @@
 
     <main>
         <section class="banner">
-            <div class="banner-text">
-                <h1>disk games shop</h1>
-                <p>
-                    Discover and buy your favorite disk games with us! Buy, play, and
-                    enjoy top-quality disk games!
-                </p>
-                <a href="#our-products" class="shop-button">Shop Now</a>
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h1>disk games shop</h1>
+                    <p>
+                        Discover and buy your favorite disk games with us! Buy, play, and
+                        enjoy top-quality disk games!
+                    </p>
+                    <a href="#our-products" class="shop-button">Shop Now</a>
+                </div>
+                <div class="slideshow-container">
+                    <div class="slideshow-image">
+                        <img src="/image/SuperMario Banner.jpg" alt="Banner Image 1" onclick="openModal(this.src)" />
+                    </div>
+                    <div class="slideshow-image">
+                        <img src="/image/S__1900574.jpg" alt="Banner Image 2" onclick="openModal(this.src)" />
+                    </div>
+                    <div class="slideshow-image">
+                        <img src="/image/S__1900579.jpg" alt="Banner Image 3" onclick="openModal(this.src)" />
+                    </div>
+                    <!-- Add more images as needed -->
+                    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+                    <div class="dot-container">
+                        <span class="dot active-dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <!-- Add more dots as needed -->
+                    </div>
+                </div>
             </div>
-            <img src="/image/SuperMario Banner.jpg" alt="Banner Image" class="banner-image" />
         </section>
+        
+        <!-- Modal for enlarged image -->
+        <div id="myModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="img01">
+        </div>
+        
 
         <section class="categories">
             <div class="category">
@@ -139,7 +279,7 @@
     </footer>
     
 </body>
-<script src="/js/script.js">
+<script>
     async function fetchStats() {
         try {
             const response = await fetch('/stats'); // Fetch stats from backend
@@ -156,6 +296,52 @@
 
     // Fetch stats when the page loads or reloads
     window.onload = fetchStats;
+
+    // JavaScript for the slideshow
+    let slideIndex = 1;
+    const slides = document.querySelectorAll('.slideshow-image');
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlides(n) {
+        if (n > slides.length) { slideIndex = 1; }
+        if (n < 1) { slideIndex = slides.length; }
+
+        slides.forEach((slide, index) => {
+            slide.style.display = 'none';
+            dots[index].classList.remove('active-dot');
+        });
+
+        slides[slideIndex - 1].style.display = 'block';
+        dots[slideIndex - 1].classList.add('active-dot');
+    }
+
+    function changeSlide(n) {
+        slideIndex += n;
+        showSlides(slideIndex);
+    }
+
+    function currentSlide(n) {
+        slideIndex = n;
+        showSlides(slideIndex);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlides(slideIndex);
+        setInterval(() => { changeSlide(1); }, 3000); // Change image every 3 seconds
+    });
+
+    // JavaScript for the modal (click to enlarge image)
+    function openModal(src) {
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+        modal.style.display = "block";
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
 </script>
 
 </html>
