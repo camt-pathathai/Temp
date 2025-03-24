@@ -24,3 +24,7 @@ To register as admin go to
 ```
 http://localhost:3000/admin/register
 ```
+
+
+And The Last : Term Project Submission
+https://drive.google.com/drive/folders/15hh_HRPtK8wg1j0bAMogDgIry0q0Ca-P
