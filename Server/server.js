@@ -8,7 +8,7 @@ const multer = require('multer');
 
 
 const app = express() ;
-const Port = 3001 ;
+const Port = 3000 ;
 app.set("views", path.join(__dirname, "../Client/views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "../Client/public")));
