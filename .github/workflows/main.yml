@@ -4,22 +4,41 @@ on:
   push:
     branches:
       - main
+      - Indev
+      - admin-feature
+      - Interfact
+      - Category
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📥 Checkout source code
-      uses: actions/checkout@v3
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v3
 
-    - name: 🛠️ Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+      - name: 🛠️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-    - name: 📦 Install dependencies
-      run: npm install
+      - name: 📦 Install dependencies
+        run: npm install
 
-    - name: ✅ Run app check (optional)
-      run: node Server/server.js || echo "App started (test run only)"
+      - name: ✅ Run app (check)
+        run: node Server/server.js || echo "App started"
+
+      # 🚀 Deploy to Production (main branch)
+      - name: 🚀 Deploy to Production
+        if: github.ref == 'refs/heads/main'
+        run: echo "🚀 Deploying to Production Server..."
+
+      # 🧪 Deploy to Staging (Indev branch)
+      - name: 🧪 Deploy to Staging
+        if: github.ref == 'refs/heads/Indev'
+        run: echo "🧪 Deploying to Staging Server..."
+
+      # 🚧 Feature branches – don't deploy
+      - name: 🔁 Skip deploy for feature branches
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/Indev'
+        run: echo "🔁 Skipping deploy for this branch."
