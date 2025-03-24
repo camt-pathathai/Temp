@@ -25,6 +25,21 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+const id = localStorage.getItem('userId');
+const basketBanner = document.getElementById('basketbanner');
 
+if (basketBanner) {
+basketBanner.addEventListener('click', function (event) {
+    // Check if the user is logged in (userId in localStorage)
+    if (!id) {
+        event.preventDefault(); // Prevent navigating to the basket page
+        alert('Please login to access our services');
+        window.location.href = '/login'; // Optionally, redirect to the login page
+    } else {
+        // Append the userId as part of the URL
+        window.location.href = `/cart/${id}`; // Redirect to the cart with userId in the URL
+    }
+});
+}
 
 
