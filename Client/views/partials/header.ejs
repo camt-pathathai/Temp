@@ -23,6 +23,9 @@
         .hidden {
             display: none !important;
         }
+        #signupButton, #loginButton {
+    z-index: 1000; /* Ensure it is on top */
+}
     </style>
 </head>
 <body>
@@ -151,6 +154,10 @@
             alert('Category Not Found');
         }
     }
+
+    signupButton.addEventListener('click', function (event) {
+    console.log('Sign Up button clicked');
+});
 </script>
 </body>
 </html>
