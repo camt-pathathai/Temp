@@ -1,19 +1,16 @@
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
+    margin: 0;
     padding: 0;
     background-color: #ffffff;
 }
 
 header {
+    background-color: #ffffff;
     color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
 }
 
 .navbar {
@@ -21,17 +18,15 @@ header {
     align-items: center;
     width: 100%;
     justify-content: center;
-    position: relative;
-    background-color: #0c2756;  /* สีฟ้าเข้ม */
-    color: #ffffff;  /* เพิ่มสีข้อความ (สีขาว) */
+    background-color: #0c2756;
+    color: #ffffff;
     padding: 20px 30px;
 }
 
 .logo {
     font-size: 24px;
     font-weight: bold;
-    font-family: 'Arial', sans-serif;  /* เพิ่มฟอนต์ (คุณสามารถเปลี่ยนฟอนต์ตามต้องการ) */
-    font-style: italic;  /*ทำให้ข้อความเป็นตัวเอียง */
+    font-style: italic;
     position: absolute;
     left: 20px;
 }
@@ -48,11 +43,34 @@ nav ul li {
 }
 
 nav ul li a {
-    color: rgb(255, 255, 255);
+    color: white;
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
 }
+
+.search-form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-form input {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    margin-right: 10px;
+  }
+  
+  .search-form button {
+    padding: 8px 12px;
+    font-size: 1rem;
+    background-color: #0c2756;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
 .recommended-products {
     text-align: center;

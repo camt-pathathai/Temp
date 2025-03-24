@@ -18,17 +18,15 @@ header {
     align-items: center;
     width: 100%;
     justify-content: center;
-    position: relative;
-    background-color: #0c2756;  /* สีฟ้าเข้ม */
-    color: #ffffff;  /* เพิ่มสีข้อความ (สีขาว) */
+    background-color: #0c2756;
+    color: #ffffff;
     padding: 20px 30px;
 }
 
 .logo {
     font-size: 24px;
     font-weight: bold;
-    font-family: 'Arial', sans-serif;  /* เพิ่มฟอนต์ (คุณสามารถเปลี่ยนฟอนต์ตามต้องการ) */
-    font-style: italic;  /*ทำให้ข้อความเป็นตัวเอียง */
+    font-style: italic;
     position: absolute;
     left: 20px;
 }
@@ -45,11 +43,35 @@ nav ul li {
 }
 
 nav ul li a {
-    color: rgb(255, 255, 255);
+    color: white;
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
 }
+
+.search-form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-form input {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    margin-right: 10px;
+  }
+  
+  .search-form button {
+    padding: 8px 12px;
+    font-size: 1rem;
+    background-color: #0c2756;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
 
 .banner {
     display: flex;
@@ -299,15 +321,20 @@ nav ul li a {
     display: inline-block;
 }
 
-footer {
-    background-color: #333;
+.product a {
+    text-decoration: none; /* Removes underline */
+    color: black; /* Changes text color to black */
+}
+
+/* footer {
+    background-color: #616161;
     color: white;
     padding: 20px 0;
     margin-top: 40px;
     text-align: center;
-}
+} */
 
-.footer-container {
+/* .footer-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -333,14 +360,4 @@ footer {
 
 .footer-right ul li a:hover {
     text-decoration: underline;
-}
-
-.product a {
-    text-decoration: none; /* Removes underline */
-    color: black; /* Changes text color to black */
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+} */
