@@ -38,7 +38,13 @@ jobs:
         if: github.ref == 'refs/heads/Indev'
         run: echo "🧪 Deploying to Staging Server..."
 
-      # 🚧 Feature branches – don't deploy
+           # 🚧 Feature branches – don't deploy
       - name: 🔁 Skip deploy for feature branches
         if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/Indev'
         run: echo "🔁 Skipping deploy for this branch."
+   
+         # 🔐 Secret deploy simulation (main only)
+      - name: 🔐 Use secret to simulate deploy
+        if: github.ref == 'refs/heads/main'
+        run: echo "Deploying using ${{ secrets.RENDER_DEPLOY_HOOK }}"
+   
